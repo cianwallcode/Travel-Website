@@ -4,51 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel Planner</title>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/826/826070.png" type="image/png">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <style>
         :root { --orange: #FF8C00; --white: #FFFFFF; }
         body { font-family: sans-serif; margin: 0; scroll-behavior: smooth; }
-        header { background: var(--orange); padding: 1rem; color: var(--white); display: flex; justify-content: space-between; align-items: center; }
+        header { background: var(--orange); padding: 1rem; color: var(--white); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .logo { cursor: pointer; font-weight: bold; font-size: 1.5rem; }
         section { padding: 50px 20px; min-height: 80vh; border-bottom: 1px solid #eee; }
-        .hero { text-align: center; background: var(--white); }
         .btn { background: var(--orange); color: var(--white); padding: 15px 30px; border: none; cursor: pointer; font-size: 1.2rem; border-radius: 5px; }
-        #map { height: 400px; width: 100%; margin-top: 20px; }
-        .skyscanner-widget { width: 100%; max-width: 800px; margin: auto; }
+        #map { height: 500px; width: 100%; margin-top: 20px; border-radius: 8px; z-index: 1; }
+        .info-panel { margin-top: 20px; padding: 20px; background: #f9f9f9; border-radius: 8px; line-height: 1.6; }
         footer { background: #f4f4f4; padding: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo" onclick="window.location.href='index.html'">TRAVEL-LOGO</div>
+    <div class="logo" onclick="window.location.href='#'">TRAVEL-LOGO</div>
     <nav>
-        <button onclick="document.getElementById('booking').scrollIntoView()">Booking</button>
-        <button onclick="document.getElementById('itinerary').scrollIntoView()">Itinerary</button>
+        <button class="btn" style="padding: 5px 10px;" onclick="document.getElementById('itinerary').scrollIntoView()">Map View</button>
     </nav>
 </header>
 
-<section class="hero">
-    <h1>Plan Your Next Adventure</h1>
-    <button class="btn" onclick="document.getElementById('booking').scrollIntoView()">Start Project</button>
-</section>
-
-<section id="booking">
-    <h2>Book Flights</h2>
-    <div class="skyscanner-widget">
-        <div style="background:#eee; height:200px; display:flex; align-items:center; justify-content:center;">
-            Skyscanner Widget Embed Here
-        </div>
-    </div>
-</section>
-
 <section id="itinerary">
-    <h2>Your Itinerary</h2>
-    <input id="pac-input" type="text" placeholder="Add a destination">
-    <button onclick="addLocation()">Add to Map</button>
-    <ul id="location-list"></ul>
+    <h2>London Architecture Route</h2>
     <div id="map"></div>
-    <div id="distances"></div>
+    <div class="info-panel">
+        <h3>Estimated Distances (Direct)</h3>
+        <ul id="route-details"></ul>
+    </div>
 </section>
 
 <footer>
@@ -57,37 +45,49 @@
 </footer>
 
 <script>
-    let map, directionsService, directionsRenderer;
-    let locations = [];
+    // Coordinates for the requested landmarks
+    const spots = [
+        { name: "Regent Street", lat: 51.5133, lng: -0.1395 },
+        { name: "Soane Museum", lat: 51.5170, lng: -0.1175 },
+        { name: "Swain's Lane", lat: 51.5653, lng: -0.1478 },
+        { name: "Tate Modern", lat: 51.5076, lng: -0.0994 },
+        { name: "Sherlock Holmes Museum", lat: 51.5238, lng: -0.1585 },
+        { name: "Westminster", lat: 51.4995, lng: -0.1248 },
+        { name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789 },
+        { name: "Barbican Estate", lat: 51.5200, lng: -0.0939 },
+        { name: "The Scoop", lat: 51.5046, lng: -0.0792 }
+    ];
 
-    function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 4,
-            center: { lat: 53.3498, lng: -6.2603 },
-        });
-        directionsService = new google.maps.DirectionsService();
-        directionsRenderer = new google.maps.DirectionsRenderer();
-        directionsRenderer.setMap(map);
-    }
+    const map = L.map('map').setView([51.52, -0.12], 12);
 
-    function addLocation() {
-        const input = document.getElementById("pac-input");
-        if (input.value) {
-            locations.push(input.value);
-            const li = document.createElement("li");
-            li.textContent = input.value;
-            document.getElementById("location-list").appendChild(li);
-            calculateRoutes();
-            input.value = "";
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    const latlngs = spots.map(spot => [spot.lat, spot.lng]);
+    
+    // Add Markers and Calculate Distances
+    const list = document.getElementById('route-details');
+    
+    spots.forEach((spot, i) => {
+        L.marker([spot.lat, spot.lng])
+            .addTo(map)
+            .bindPopup(spot.name);
+
+        if (i < spots.length - 1) {
+            const from = L.latLng(spot.lat, spot.lng);
+            const to = L.latLng(spots[i+1].lat, spots[i+1].lng);
+            const dist = (from.distanceTo(to) / 1000).toFixed(2);
+            
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${spot.name}</strong> to <strong>${spots[i+1].name}</strong>: ~${dist} km (direct)`;
+            list.appendChild(li);
         }
-    }
+    });
 
-    function calculateRoutes() {
-        if (locations.length < 2) return;
-        // Logic for walking/transit distance requests goes here
-    }
-
-    window.onload = initMap;
+    // Draw connecting line
+    L.polyline(latlngs, {color: '#FF8C00', weight: 4, opacity: 0.7}).addTo(map);
+    map.fitBounds(L.polyline(latlngs).getBounds());
 </script>
 
 </body>
