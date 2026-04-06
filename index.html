@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trip to London | Modernist Exploration</title>
+    <title>Trip to London | Architectural Discovery</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -11,22 +11,24 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
     <style>
-        :root { --bg: #ffffff; --card: #f8fafc; --accent: #0f172a; --text: #0f172a; --sub: #64748b; --free: #6366f1; --arch: #f97316; --bus: #ef4444; }
+        :root { --bg: #ffffff; --card: #f8fafc; --accent: #0f172a; --text: #0f172a; --sub: #64748b; --arch: #f97316; --food: #10b981; }
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
         header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; background: #ffffffcc; backdrop-filter: blur(12px); z-index: 1000; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
         .hero { height: 25vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid #e2e8f0; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin: 0; }
         section { max-width: 1200px; margin: auto; padding: 2rem 1.5rem; }
-        #map { height: 450px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0; }
-        .itinerary-grid { display: grid; grid-template-columns: 1fr 320px; gap: 2.5rem; margin-top: 2rem; }
-        .day-header { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); margin: 2rem 0 1rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.4rem; }
-        .leg-card { background: var(--card); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.2rem; border: 1px solid #e2e8f0; }
-        .weather-banner { background: #f1f5f9; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
-        .tag { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .tag-free { background: #e0e7ff; color: #4338ca; }
+        #map { height: 400px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .itinerary-grid { display: grid; grid-template-columns: 1fr 340px; gap: 2.5rem; margin-top: 2rem; }
+        .day-section { margin-bottom: 3rem; }
+        .day-header { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); margin: 1.5rem 0 0.5rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.4rem; }
+        .weather-sub { font-size: 0.9rem; color: var(--sub); margin-bottom: 1rem; font-weight: 600; }
+        .leg-card { background: var(--card); padding: 1.2rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid #e2e8f0; border-left: 4px solid var(--arch); }
+        .food-card { border-left-color: var(--food); background: #f0fdf4; }
+        .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; margin-top: 8px; text-transform: uppercase; }
         .tag-arch { background: #ffedd5; color: #9a3412; }
-        .tag-bus { background: #fee2e2; color: #991b1b; }
+        .tag-food { background: #dcfce7; color: #166534; }
+        .cost-box { background: #f1f5f9; padding: 1.5rem; border-radius: 12px; position: sticky; top: 100px; height: fit-content; border: 1px solid #e2e8f0; }
         footer { padding: 3rem 2rem; border-top: 1px solid #e2e8f0; text-align: center; font-size: 0.75rem; color: var(--sub); }
     </style>
 </head>
@@ -38,88 +40,106 @@
 </header>
 
 <section class="hero">
-    <h1>Weekend Explorer</h1>
-    <p>Shopping • Architecture • Seamless Transit</p>
+    <h1>Itinerary & Budget</h1>
+    <p>Architecture • Shopping • Daily Costs</p>
 </section>
 
 <section>
-    <div class="weather-banner">
-        <span>☁️</span> <strong>London Weather:</strong> Friday: Mostly cloudy, High 13°C. Saturday: Cloudy with evening light rain, High 16°C.
-    </div>
     <div id="map"></div>
     
     <div class="itinerary-grid">
         <div id="route-list">
-            <div class="day-header">Gia Day (Friday)</div>
-            <div class="leg-card free-card">
-                <strong>Morning Arrival & Sherlock Holmes</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Explore Baker Street and the Wallace Collection.</p>
-                <span class="tag tag-free">Culture</span>
-            </div>
-            <div class="leg-card free-card">
-                <strong>Afternoon: Marylebone Shopping</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Boutique shopping on Marylebone High Street and Daunt Books.</p>
-                <span class="tag tag-free">Shopping</span>
+            <div class="day-section">
+                <div class="day-header">Gia Day (Friday)</div>
+                <div class="weather-sub">☁️ Mostly Cloudy | High: 13°C | Low: 4°C</div>
+                <div class="leg-card">
+                    <strong>Morning Arrival & Shopping</strong>
+                    <p style="font-size:0.85rem;">Marylebone High St & Baker St. Boutique finds and Daunt Books.</p>
+                    <span class="tag tag-arch">Shopping</span>
+                </div>
+                <div style="font-size: 0.85rem; font-weight: bold; color: var(--sub);">Total Distance: 4.2 km</div>
             </div>
 
-            <div class="day-header">Architecture Saturday</div>
-            <div id="sat-list"></div>
+            <div class="day-section">
+                <div class="day-header">Architecture (Saturday)</div>
+                <div class="weather-sub">☁️ Cloudy (Rain late) | High: 16°C | Low: 6°C</div>
+                <div id="sat-items"></div>
+                <div class="leg-card food-card">
+                    <strong>Lunch: Whitecross St Market</strong>
+                    <p style="font-size:0.85rem;">Street food near Barbican (Budget: £8–£12).</p>
+                    <span class="tag tag-food">Lunch</span>
+                </div>
+                <div class="leg-card food-card">
+                    <strong>Dinner: Borough Market</strong>
+                    <p style="font-size:0.85rem;">Artisanal food hall near Tate Modern.</p>
+                    <span class="tag tag-food">Dinner</span>
+                </div>
+                <div style="font-size: 0.85rem; font-weight: bold; color: var(--sub);">Total Distance: 18.5 km</div>
+            </div>
 
-            <div class="day-header">Departure (Sunday)</div>
-            <div class="leg-card bus-card">
-                <strong>3:00 AM Airport Bus</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Direct coach for 6:00 AM flight departure.</p>
-                <span class="tag tag-bus">Transport</span>
+            <div class="day-section">
+                <div class="day-header">Departure (Sunday)</div>
+                <div class="weather-sub">☁️ Cloudy | High: 13°C | Low: 4°C</div>
+                <div class="leg-card food-card">
+                    <strong>Breakfast: Victoria Station</strong>
+                    <p style="font-size:0.85rem;">Quick grab-and-go before the coach.</p>
+                    <span class="tag tag-food">Food</span>
+                </div>
+                <div class="leg-card" style="border-left-color: #ef4444;">
+                    <strong>6:00 AM Flight</strong>
+                    <p style="font-size:0.85rem;">3:00 AM National Express Coach departure.</p>
+                    <span class="tag" style="background:#fee2e2; color:#991b1b;">Bus</span>
+                </div>
+                <div style="font-size: 0.85rem; font-weight: bold; color: var(--sub);">Total Distance: 0.0 km</div>
             </div>
         </div>
 
-        <aside style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; height: fit-content; position: sticky; top: 100px;">
-            <h3 style="margin-top:0; font-family: 'Playfair Display';">Route Summary</h3>
-            <p style="font-size: 0.9rem;">Saturday sequence optimized for geographical flow: North (Highgate) → West (Marylebone) → Central → East (Barbican) → South (Southwark).</p>
-            <hr style="border:0; border-top: 1px solid #e2e8f0; margin: 1rem 0;">
-            <p style="font-size: 0.8rem; color: var(--sub);">© 2026 All Rights Reserved.</p>
+        <aside class="cost-box">
+            <h3 style="margin-top:0; font-family: 'Playfair Display';">Average Daily Cost</h3>
+            <div style="margin-bottom: 1rem;">
+                <div style="display:flex; justify-content:space-between;"><span>Underground Cap</span> <strong>£8.90</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Food (Budget)</span> <strong>£30.00</strong></div>
+                <div style="display:flex; justify-content:space-between;"><span>Misc/Coffee</span> <strong>£10.00</strong></div>
+                <hr style="border:0; border-top:1px solid #cbd5e1; margin:0.5rem 0;">
+                <div style="display:flex; justify-content:space-between; font-weight:bold;"><span>Total/Day</span> <span>£48.90</span></div>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--sub);">*Based on contactless PAYG for Zones 1-2 and budget dining choices like street markets.</p>
         </aside>
     </div>
 </section>
 
 <footer>
-    <p>contact@triptolondon.ldn | All rights reserved.</p>
+    <p>© 2026 Architectural Discovery | All rights reserved to project files.</p>
 </footer>
 
 <script>
-    const satSpots = [
-        { name: "Swain's Lane, Highgate", lat: 51.5653, lng: -0.1478, type: "Modernist Villa", tag: "North" },
-        { name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789, type: "Neave Brown Brutalism", tag: "NW" },
-        { name: "Regent Street", lat: 51.5133, lng: -0.1395, type: "Nash Urban Plan", tag: "Central" },
-        { name: "Sir John Soane's Museum", lat: 51.5170, lng: -0.1175, type: "Architectural Gem", tag: "Central" },
-        { name: "Barbican Estate", lat: 51.5200, lng: -0.0939, type: "Brutalist City", tag: "East" },
-        { name: "Tate Modern (Blavatnik)", lat: 51.5076, lng: -0.0994, type: "Herzog & de Meuron", tag: "Southbank" },
-        { name: "The Scoop (Omira St)", lat: 51.5036, lng: -0.0913, type: "Concave Brickwork", tag: "Southwark" },
-        { name: "Westminster", lat: 51.4995, lng: -0.1248, type: "Gothic Heritage", tag: "SW" }
+    const saturday = [
+        { name: "Swain's Lane", lat: 51.5653, lng: -0.1478 },
+        { name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789 },
+        { name: "Regent Street", lat: 51.5133, lng: -0.1395 },
+        { name: "Soane Museum", lat: 51.5170, lng: -0.1175 },
+        { name: "Barbican Estate", lat: 51.5200, lng: -0.0939 },
+        { name: "The Scoop (Omira St)", lat: 51.5036, lng: -0.0913 },
+        { name: "Tate Modern", lat: 51.5076, lng: -0.0994 },
+        { name: "Westminster", lat: 51.4995, lng: -0.1248 }
     ];
 
     const map = L.map('map', { zoomControl: false }).setView([51.53, -0.13], 12);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    const satList = document.getElementById('sat-list');
-    const coords = [];
+    const satItems = document.getElementById('sat-items');
+    const coords = saturday.map(s => [s.lat, s.lng]);
 
-    satSpots.forEach(spot => {
-        coords.push([spot.lat, spot.lng]);
-        
-        // Add to list
+    saturday.forEach(spot => {
         const card = document.createElement('div');
-        card.className = 'leg-card arch-card';
-        card.innerHTML = `<strong>${spot.name}</strong><p style="font-size:0.85rem; color:var(--sub);">${spot.type}</p><span class="tag tag-arch">${spot.tag}</span>`;
-        satList.appendChild(card);
-
-        // Add to map
+        card.className = 'leg-card';
+        card.innerHTML = `<strong>${spot.name}</strong><span class="tag tag-arch">Architecture</span>`;
+        satItems.appendChild(card);
         L.circleMarker([spot.lat, spot.lng], { radius: 6, color: '#f97316', fillColor: '#fff', fillOpacity: 1, weight: 2 }).addTo(map).bindPopup(spot.name);
     });
 
-    // Connect dots
-    L.polyline(coords, { color: '#f97316', weight: 2, dashArray: '5, 10', opacity: 0.6 }).addTo(map);
-    map.fitBounds(L.polyline(coords).getBounds(), { padding: [50, 50] });
+    L.polyline(coords, { color: '#f97316', weight: 2, dashArray: '5, 8' }).addTo(map);
+    map.fitBounds(L.polyline(coords).getBounds(), { padding: [40, 40] });
 </script>
 </body>
 </html>
