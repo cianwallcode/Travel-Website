@@ -14,11 +14,11 @@
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--white); color: var(--text); scroll-behavior: smooth; }
         header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #ffffffe6; backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; font-weight: 700; }
-        .hero { height: 35vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=80'); background-size: cover; }
-        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
+        .hero { height: 30vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=80'); background-size: cover; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 0; }
         .start-btn { margin-top: 1rem; padding: 1rem 2.5rem; background: var(--orange); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; transition: transform 0.2s; border: none; cursor: pointer; }
-        .map-container { padding: 2rem; max-width: 1100px; margin: auto; }
-        .map-frame { height: 500px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1rem; }
+        .map-container { padding: 2rem; max-width: 1200px; margin: auto; }
+        .map-frame { height: 550px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1rem; }
         .day-label { color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; border-bottom: 2px solid var(--orange); display: inline-block; margin-bottom: 1.5rem; }
         footer { padding: 4rem 2rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; }
         .footer-links { margin-bottom: 1.5rem; }
@@ -29,17 +29,16 @@
 
 <header>
     <a href="#" class="logo">LON_ARCH</a>
-    <a href="https://www.google.com/maps" target="_blank" class="start-btn" style="margin-top:0; padding: 0.6rem 1.2rem; font-size: 0.75rem;">View on Google Maps</a>
+    <a href="#" class="start-btn" style="margin-top:0; padding: 0.6rem 1.2rem; font-size: 0.75rem;">View on Google Maps</a>
 </header>
 
 <div class="hero">
     <h1>London Itinerary</h1>
-    <p>Architecture, Art & Landmarks | 2026</p>
-    <a href="#friday" class="start-btn">Start Project</a>
+    <p>Friday Exploration & Saturday Architecture | 2026</p>
 </div>
 
 <div class="map-container" id="friday">
-    <div class="day-label">Friday: Transit & Favorites</div>
+    <div class="day-label">Friday: Transit, Shopping & Favorites</div>
     <div id="mapFriday" class="map-frame"></div>
 </div>
 
@@ -62,7 +61,7 @@
     const HOME_COLOR = '#f97316';
     const tiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
-    // Friday Map Data
+    // Friday Map - Now including Alexandra Road and Matcha spots
     const mapFri = L.map('mapFriday').setView([51.50, -0.15], 11);
     L.tileLayer(tiles).addTo(mapFri);
     
@@ -70,13 +69,17 @@
         { name: "Heathrow Airport", lat: 51.4707, lng: -0.4599 },
         { name: "Victoria Coach Station", lat: 51.4931, lng: -0.1486 },
         { name: "Home", lat: 51.4536, lng: -0.1951, color: HOME_COLOR },
+        { name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789 },
         { name: "National Gallery", lat: 51.5089, lng: -0.1283 },
         { name: "Natural History Museum", lat: 51.4967, lng: -0.1764 },
         { name: "Camden Lock Market", lat: 51.5415, lng: -0.1458 },
         { name: "Sherlock Holmes Museum", lat: 51.5237, lng: -0.1585 },
         { name: "Daunt Books", lat: 51.5208, lng: -0.1531 },
         { name: "Match Shop", lat: 51.5380, lng: -0.1800 },
-        { name: "Zara / H&M", lat: 51.5153, lng: -0.1420 }
+        { name: "Zara / H&M", lat: 51.5153, lng: -0.1420 },
+        { name: "Blank Street Coffee (Matcha)", lat: 51.5172, lng: -0.1430 },
+        { name: "JENKI Matcha Selfridges", lat: 51.5147, lng: -0.1534 },
+        { name: "Omotesando Koffee (Matcha)", lat: 51.5166, lng: -0.1348 }
     ];
 
     friPoints.forEach(p => {
@@ -85,13 +88,12 @@
         }).addTo(mapFri).bindPopup(`<strong>${p.name}</strong>`);
     });
 
-    // Saturday Map Data
-    const mapSat = L.map('mapSaturday').setView([51.52, -0.13], 12);
+    // Saturday Map
+    const mapSat = L.map('mapSaturday').setView([51.51, -0.11], 13);
     L.tileLayer(tiles).addTo(mapSat);
 
     const satPoints = [
         { name: "Home", lat: 51.4536, lng: -0.1951, color: HOME_COLOR },
-        { name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789, color: SAT_COLOR },
         { name: "Sir John Soane's Museum", lat: 51.5170, lng: -0.1175, color: SAT_COLOR },
         { name: "LSE Saw Swee Hock", lat: 51.5144, lng: -0.1165, color: SAT_COLOR },
         { name: "Tate Modern", lat: 51.5076, lng: -0.0994, color: SAT_COLOR },
