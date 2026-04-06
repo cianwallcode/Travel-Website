@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modernist London | Architectural Discovery</title>
+    <title>Modernist London | Friday Arrival - Sunday Departure</title>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/784/784850.png" type="image/png">
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -11,123 +11,121 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; }
+        :root { --bg: #ffffff; --card: #f8fafc; --accent: #0f172a; --text: #0f172a; --sub: #64748b; --free: #6366f1; --arch: #f97316; --bus: #ef4444; }
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
-        
-        header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; position: sticky; top: 0; background: #0f172ae6; backdrop-filter: blur(12px); z-index: 1000; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; }
-        
-        .hero { height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(to bottom, #0f172a00, #0f172a), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1920&q=80'); background-size: cover; }
-        h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; margin: 0; }
-        
-        section { max-width: 1200px; margin: auto; padding: 3rem 1.5rem; }
-        #map { height: 550px; width: 100%; border-radius: 12px; border: 1px solid #334155; }
-        
-        .itinerary-grid { display: grid; grid-template-columns: 1fr 380px; gap: 2.5rem; margin-top: 3rem; }
-        .day-header { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--accent); margin: 2rem 0 1rem; border-bottom: 1px solid #334155; padding-bottom: 0.5rem; }
-        
-        .leg-card { background: var(--card); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid var(--accent); transition: transform 0.2s; }
-        .leg-card:hover { transform: scale(1.01); }
-        
-        .summary-box { background: var(--accent); color: var(--bg); padding: 2rem; border-radius: 12px; position: sticky; top: 120px; height: fit-content; }
-        .summary-box h3 { margin-top: 0; font-family: 'Playfair Display', serif; }
-        
-        .tag { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .walk-tag { background: #0ea5e922; color: #075985; border: 1px solid #075985; }
-        .train-tag { background: #f59e0b22; color: #92400e; border: 1px solid #92400e; }
-        
-        .fact-text { font-size: 0.85rem; color: #cbd5e1; margin-top: 8px; line-height: 1.4; }
-        footer { padding: 4rem 2rem; border-top: 1px solid #334155; text-align: center; opacity: 0.6; }
+        header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; background: #ffffffcc; backdrop-filter: blur(12px); z-index: 1000; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
+        .hero { height: 30vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid #e2e8f0; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
+        section { max-width: 1200px; margin: auto; padding: 2rem 1.5rem; }
+        #map { height: 400px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .itinerary-grid { display: grid; grid-template-columns: 1fr 320px; gap: 2.5rem; margin-top: 2rem; }
+        .day-header { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); margin: 2rem 0 1rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.4rem; }
+        .leg-card { background: var(--card); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.2rem; border: 1px solid #e2e8f0; }
+        .free-card { border-left: 4px solid var(--free); }
+        .arch-card { border-left: 4px solid var(--arch); }
+        .bus-card { border-left: 4px solid var(--bus); background: #fef2f2; }
+        .tag { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .tag-free { background: #e0e7ff; color: #4338ca; }
+        .tag-arch { background: #ffedd5; color: #9a3412; }
+        .tag-bus { background: #fee2e2; color: #991b1b; }
+        footer { padding: 3rem 2rem; border-top: 1px solid #e2e8f0; text-align: center; font-size: 0.75rem; color: var(--sub); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">ARCHI-TRACE</div>
-    <div style="font-size: 0.9rem; font-weight: 600;">APRIL 10 – APRIL 12, 2026</div>
+    <div style="font-size: 0.7rem; letter-spacing: 2px;">APRIL 10 – 12, 2026</div>
 </header>
 
 <section class="hero">
-    <h1>Weekend in London</h1>
-    <p>Friday Arrival • Sunday Departure</p>
+    <h1>Weekend Itinerary</h1>
+    <p>AM Arrival • Architecture Core • Early Departure</p>
 </section>
 
-<section id="itinerary">
+<section>
     <div id="map"></div>
-
     <div class="itinerary-grid">
         <div id="route-list">
+            <div class="day-header">Gia Day (Friday) — Arrival</div>
+            <div class="leg-card free-card">
+                <strong>Morning: Sherlock Holmes & Marylebone</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Arrive early and head to 221B Baker Street. Visit the Wallace Collection (Free entry) nearby.</p>
+                <span class="tag tag-free">Free & Fun</span>
+            </div>
+            <div class="leg-card free-card">
+                <strong>Lunch: Diwan Lebanese</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Excellent budget lunch in the heart of Marylebone.</p>
+                <span class="tag tag-free">Budget Food</span>
+            </div>
+            <div class="leg-card free-card">
+                <strong>Afternoon: Primrose Hill</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Walk through Regent's Park to the hill for the best free panoramic view of London.</p>
+                <span class="tag tag-free">Outdoors</span>
             </div>
 
+            <div class="day-header">Architecture (Saturday)</div>
+            <div class="leg-card arch-card">
+                <strong>Swain’s Lane (Highgate)</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Start at the northern outlier. Modernist villas meets Victorian Gothic.</p>
+                <span class="tag tag-arch">Outlier Visit</span>
+            </div>
+            <div class="leg-card arch-card">
+                <strong>Alexandra Road Estate</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Neave Brown's iconic brutalist ziggurat.</p>
+                <span class="tag tag-arch">Brutalism</span>
+            </div>
+            <div class="leg-card arch-card">
+                <strong>John Nash’s Park Square</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Observe the private "key-entry" gardens from the exterior terraces.</p>
+                <span class="tag tag-arch">Neoclassical</span>
+            </div>
+            <div class="leg-card arch-card">
+                <strong>The Barbican & Riverside</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">End the day at the Barbican Estate, Tate Modern, and Westminster.</p>
+                <span class="tag tag-arch">Modernist Core</span>
+            </div>
+
+            <div class="day-header">Departure (Sunday) — 6 AM Flight</div>
+            <div class="leg-card bus-card">
+                <strong>Airport Coach (3:00 AM Departure)</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">For a 6:00 AM flight, board the National Express A1/A2 from Baker Street or Victoria at ~3:00 AM. 24/7 service.</p>
+                <span class="tag tag-bus">Time Sensitive</span>
+            </div>
+        </div>
+
         <aside class="summary-box">
-            <h3>Trip Overview</h3>
-            <p><strong>Total Distance:</strong> <span id="total-dist">0</span> km</p>
-            <p><strong>Friday:</strong> Arrival & Highgate</p>
-            <p><strong>Saturday:</strong> The Modernist Core</p>
-            <p><strong>Sunday:</strong> Riverside & Departure</p>
-            <hr style="border: 0; border-top: 1px solid #00000022; margin: 1.5rem 0;">
-            <p><small>Swain's Lane is the northern outlier; recommended as the Friday start point.</small></p>
+            <h3 style="margin-top:0;">Logistics</h3>
+            <p><strong>Gia Day:</strong> Arrival morning. Relaxed Marylebone vibe.</p>
+            <p><strong>Saturday:</strong> High-density architecture day. ~22km total.</p>
+            <p><strong>Sunday:</strong> 3 AM bus is essential for 6 AM flight.</p>
+            <hr style="border:0; border-top:1px solid #e2e8f0; margin:1rem 0;">
+            <p><small>© 2026 Archi-Trace | All Rights Reserved.</small></p>
         </aside>
     </div>
 </section>
 
 <footer>
-    <p>Contact: studio@architrace.ldn | All rights reserved.</p>
-    <p>© 2026 Architectural Discovery Project</p>
+    <p>Contact: logistics@architrace.ldn | All rights reserved.</p>
 </footer>
 
 <script>
-    const spots = [
-        { day: "Friday, April 10", name: "Swain's Lane", lat: 51.5653, lng: -0.1478, type: "Arrival", hours: "24/7", fact: "Start here to clear the northern outlier first." },
-        { day: "Friday, April 10", name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789, type: "Train", hours: "External View", fact: "Neave Brown's brutalist masterpiece." },
-        { day: "Saturday, April 11", name: "Sherlock Holmes Museum", lat: 51.5238, lng: -0.1585, type: "Walk", hours: "09:30 - 18:00", fact: "221B Baker Street." },
-        { day: "Saturday, April 11", name: "Regent's Park", lat: 51.5313, lng: -0.1570, type: "Walk", hours: "05:00 - Dusk", fact: "Nash's neoclassical parkland." },
-        { day: "Saturday, April 11", name: "Regent Street", lat: 51.5133, lng: -0.1395, type: "Walk", hours: "Public", fact: "The curve of Nash's urban plan." },
-        { day: "Saturday, April 11", name: "Soane Museum", lat: 51.5170, lng: -0.1175, type: "Walk", hours: "10:00 - 17:00", fact: "Lincoln's Inn Fields gem." },
-        { day: "Sunday, April 12", name: "Barbican Estate", lat: 51.5200, lng: -0.0939, type: "Train", hours: "09:00 - 23:00", fact: "Brutalist residential city." },
-        { day: "Sunday, April 12", name: "Tate Modern", lat: 51.5076, lng: -0.0994, type: "Walk", hours: "10:00 - 18:00", fact: "Power station to gallery." },
-        { day: "Sunday, April 12", name: "The Scoop", lat: 51.5046, lng: -0.0792, type: "Walk", hours: "Public", fact: "Foster + Partners amphitheatre." },
-        { day: "Sunday, April 12", name: "Westminster", lat: 51.4995, lng: -0.1248, type: "Walk", hours: "Departure", fact: "Final stop before airport/train connections." }
+    const map = L.map('map', { zoomControl: false }).setView([51.52, -0.13], 12);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+    const locations = [
+        { name: "Baker St", lat: 51.5238, lng: -0.1585 },
+        { name: "Primrose Hill", lat: 51.5410, lng: -0.1606 },
+        { name: "Swain's Lane", lat: 51.5653, lng: -0.1478 },
+        { name: "Alexandra Rd", lat: 51.5395, lng: -0.1789 },
+        { name: "Barbican", lat: 51.5200, lng: -0.0939 },
+        { name: "Victoria (Bus)", lat: 51.4916, lng: -0.1475 }
     ];
 
-    const map = L.map('map', { zoomControl: false }).setView([51.53, -0.13], 12);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-
-    let totalKm = 0;
-    let currentDay = "";
-    const list = document.getElementById('route-list');
-
-    spots.forEach((spot, i) => {
-        L.circleMarker([spot.lat, spot.lng], { radius: 6, color: '#38bdf8' }).addTo(map).bindPopup(spot.name);
-
-        if (spot.day !== currentDay) {
-            currentDay = spot.day;
-            const h2 = document.createElement('div');
-            h2.className = 'day-header';
-            h2.innerText = currentDay;
-            list.appendChild(h2);
-        }
-
-        if (i < spots.length - 1) {
-            const next = spots[i+1];
-            const d = (L.latLng(spot.lat, spot.lng).distanceTo(L.latLng(next.lat, next.lng)) / 1000);
-            totalKm += d;
-
-            const card = document.createElement('div');
-            card.className = 'leg-card';
-            card.innerHTML = `
-                <div style="font-size:1.1rem; font-weight:600;">${spot.name} → ${next.name}</div>
-                <div class="fact-text">${spot.fact}</div>
-                <span class="tag ${next.type === 'Train' ? 'train-tag' : 'walk-tag'}">${next.type} Suggested</span>
-                <div style="font-size:0.8rem; margin-top:8px; opacity:0.6;">Segment: ${d.toFixed(2)} km</div>
-            `;
-            list.appendChild(card);
-        }
+    locations.forEach(loc => {
+        L.circleMarker([loc.lat, loc.lng], { radius: 5, color: '#0f172a', fillColor: '#fff', fillOpacity: 1 }).addTo(map);
     });
-
-    document.getElementById('total-dist').innerText = totalKm.toFixed(1);
-    const polyline = L.polyline(spots.map(s => [s.lat, s.lng]), {color: '#38bdf8', weight: 2, dashArray: '5, 10'}).addTo(map);
-    map.fitBounds(polyline.getBounds(), {padding: [50, 50]});
 </script>
 </body>
 </html>
