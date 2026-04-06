@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+    <style>
+        :root { --orange: #FF8C00; --white: #FFFFFF; }
+        body { font-family: sans-serif; margin: 0; scroll-behavior: smooth; }
+        header { background: var(--orange); padding: 1rem; color: var(--white); display: flex; justify-content: space-between; align-items: center; }
+        .logo { cursor: pointer; font-weight: bold; font-size: 1.5rem; }
+        section { padding: 50px 20px; min-height: 80vh; border-bottom: 1px solid #eee; }
+        .hero { text-align: center; background: var(--white); }
+        .btn { background: var(--orange); color: var(--white); padding: 15px 30px; border: none; cursor: pointer; font-size: 1.2rem; border-radius: 5px; }
+        #map { height: 400px; width: 100%; margin-top: 20px; }
+        .skyscanner-widget { width: 100%; max-width: 800px; margin: auto; }
+        footer { background: #f4f4f4; padding: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo" onclick="window.location.href='index.html'">TRAVEL-LOGO</div>
+    <nav>
+        <button onclick="document.getElementById('booking').scrollIntoView()">Booking</button>
+        <button onclick="document.getElementById('itinerary').scrollIntoView()">Itinerary</button>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Plan Your Next Adventure</h1>
+    <button class="btn" onclick="document.getElementById('booking').scrollIntoView()">Start Project</button>
+</section>
+
+<section id="booking">
+    <h2>Book Flights</h2>
+    <div class="skyscanner-widget">
+        <div style="background:#eee; height:200px; display:flex; align-items:center; justify-content:center;">
+            Skyscanner Widget Embed Here
+        </div>
+    </div>
+</section>
+
+<section id="itinerary">
+    <h2>Your Itinerary</h2>
+    <input id="pac-input" type="text" placeholder="Add a destination">
+    <button onclick="addLocation()">Add to Map</button>
+    <ul id="location-list"></ul>
+    <div id="map"></div>
+    <div id="distances"></div>
+</section>
+
+<footer>
+    <p>Contact: info@travelsite.com</p>
+    <p>© 2026 Travel Planner. All Rights Reserved.</p>
+</footer>
+
+<script>
+    let map, directionsService, directionsRenderer;
+    let locations = [];
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 4,
+            center: { lat: 53.3498, lng: -6.2603 },
+        });
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+    }
+
+    function addLocation() {
+        const input = document.getElementById("pac-input");
+        if (input.value) {
+            locations.push(input.value);
+            const li = document.createElement("li");
+            li.textContent = input.value;
+            document.getElementById("location-list").appendChild(li);
+            calculateRoutes();
+            input.value = "";
+        }
+    }
+
+    function calculateRoutes() {
+        if (locations.length < 2) return;
+        // Logic for walking/transit distance requests goes here
+    }
+
+    window.onload = initMap;
+</script>
+
+</body>
+</html>
