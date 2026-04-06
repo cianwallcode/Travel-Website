@@ -31,11 +31,12 @@
         
         .time { font-weight: 600; font-size: 0.85rem; color: var(--sub); display: block; margin-bottom: 4px; }
         .activity { font-weight: 600; font-size: 1.1rem; }
-        .desc { font-size: 0.85rem; color: var(--sub); margin-top: 4px; line-height: 1.4; }
-        .food-note { color: #10b981; font-weight: 600; font-size: 0.8rem; margin-top: 5px; display: block; }
+        .address { font-size: 0.75rem; color: var(--accent); font-weight: 600; background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
+        .desc { font-size: 0.85rem; color: var(--sub); margin-top: 6px; line-height: 1.4; }
+        .food-note { color: #10b981; font-weight: 600; font-size: 0.8rem; margin-top: 8px; display: block; }
         
         .star { color: #facc15; font-size: 1.2rem; margin-left: 4px; }
-        .km-tag { display: inline-block; background: #f1f5f9; color: var(--sub); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-top: 6px; font-weight: bold; }
+        .km-tag { display: inline-block; background: #f1f5f9; color: var(--sub); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-top: 10px; font-weight: bold; }
         .nav-btn { background: var(--accent); color: white; padding: 10px 18px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; }
         
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
@@ -48,64 +49,79 @@
 
 <header>
     <div class="logo">Trip to London</div>
-    <a href="https://www.google.com/maps/dir/Alexandra+Road+Estate/Regent+St/Sir+John+Soane's+Museum/Barbican+Estate/Tate+Modern/50+Union+St/Westminster" target="_blank" class="nav-btn">Open Map Window</a>
+    <a href="#" class="nav-btn">View on Google Maps</a>
 </header>
 
 <section>
     <div id="map"></div>
 
     <div class="day-header">Architecture Day (Saturday)</div>
-    <span class="weather-sub">☁️ 16°C Cloudy | Total Circuit: 13.8 km</span>
+    <span class="weather-sub">☁️ 16°C Cloudy | Total Sites: 8</span>
 
     <div class="timeline">
+        <div class="time-slot">
+            <span class="time">08:30</span>
+            <div class="activity">King George's Park</div>
+            <div class="address">Mapleton Rd, London SW18 2GJ, UK</div>
+            <div class="desc">Starting point for the day's architectural circuit.</div>
+            <span class="km-tag">Start Point</span>
+        </div>
+
         <div class="time-slot estate">
             <span class="time">10:00</span>
             <div class="activity">Alexandra Road Estate</div>
+            <div class="address">90B Rowley Way, London NW8 0SN, UK</div>
             <div class="desc">Neave Brown's brutalist masterpiece. Walk the Rowley Way terraces.</div>
-            <span class="km-tag">Start Point</span>
+            <span class="km-tag">~75 min Transit</span>
         </div>
 
         <div class="time-slot">
             <span class="time">11:30</span>
             <div class="activity">Regent Street</div>
+            <div class="address">Regent St, London W1B 2EL, UK</div>
             <div class="desc">John Nash's urban curve. Iconic shopping and heritage.</div>
-            <span class="km-tag">3.2 km from previous</span>
+            <span class="km-tag">3.2 km</span>
         </div>
 
         <div class="time-slot essential">
             <span class="time">13:00</span>
             <div class="activity">Sir John Soane's Museum <span class="star">★</span></div>
+            <div class="address">13 Lincoln's Inn Fields, London WC2A 3BP, UK</div>
             <div class="desc">Essential Interior. Preserved neo-classical architect's home.</div>
-            <span class="km-tag">2.1 km from previous</span>
+            <span class="km-tag">2.1 km</span>
         </div>
 
         <div class="time-slot estate">
             <span class="time">15:00</span>
             <div class="activity">Barbican Estate</div>
-            <div class="desc">Brutalist icon. Entry via Wood St, Barbican, London EC2Y 8BB.</div>
-            <span class="km-tag">1.5 km from previous</span>
+            <div class="address">Silk St, London EC2Y 8DS, UK</div>
+            <div class="desc">Brutalist icon. Explore the Wood Street highwalks.</div>
+            <span class="km-tag">1.5 km</span>
         </div>
 
         <div class="time-slot essential">
             <span class="time">17:30</span>
             <div class="activity">Tate Modern <span class="star">★</span></div>
+            <div class="address">Bankside, London SE1 9TG, UK</div>
             <div class="desc">Essential Industrial Design. Open late until 21:00.</div>
-            <span class="food-note">🍴 DINNER: The Corner at Tate Modern (Open until 23:00).</span>
-            <span class="km-tag">2.4 km from previous</span>
+            <span class="food-note">🍴 DINNER: The Corner at Tate Modern (Open late).</span>
+            <span class="km-tag">2.4 km</span>
         </div>
 
         <div class="time-slot">
             <span class="time">19:30</span>
-            <div class="activity">The Scoop (Union St)</div>
-            <div class="desc">Modern hub at 50, 52 Union St, London SE1 1TD.</div>
-            <span class="km-tag">1.1 km from previous</span>
+            <div class="activity">The Scoop</div>
+            <div class="address">50-52 Union St, London SE1 1TD, UK</div>
+            <div class="desc">Modern architecture hub in Southwark.</div>
+            <span class="km-tag">1.1 km</span>
         </div>
 
         <div class="time-slot">
             <span class="time">21:00</span>
-            <div class="activity">Westminster</div>
-            <div class="desc">Final Gothic heritage stop before Sunday departure.</div>
-            <span class="km-tag">3.5 km from previous</span>
+            <div class="activity">Palace of Westminster</div>
+            <div class="address">London SW1A 0AA, UK</div>
+            <div class="desc">Final Gothic heritage stop.</div>
+            <span class="km-tag">3.5 km</span>
         </div>
     </div>
 
@@ -122,27 +138,26 @@
 
 <script>
     const points = [
-        { name: "Alexandra Rd", lat: 51.5395, lng: -0.1789, color: '#f97316' },
-        { name: "Regent St", lat: 51.5133, lng: -0.1395, color: '#0f172a' },
-        { name: "Soane Museum ★", lat: 51.5170, lng: -0.1175, color: '#6366f1' },
-        { name: "Barbican (Wood St)", lat: 51.5186, lng: -0.0935, color: '#f97316' },
-        { name: "Tate Modern ★", lat: 51.5076, lng: -0.0994, color: '#6366f1' },
-        { name: "The Scoop (Union St)", lat: 51.5034, lng: -0.0945, color: '#0f172a' },
-        { name: "Westminster", lat: 51.4995, lng: -0.1248, color: '#0f172a' }
+        { name: "King George's Park", lat: 51.4503, lng: -0.1916 },
+        { name: "Alexandra Rd", lat: 51.5395, lng: -0.1789 },
+        { name: "Regent St", lat: 51.5133, lng: -0.1395 },
+        { name: "Soane Museum ★", lat: 51.5170, lng: -0.1175 },
+        { name: "Barbican", lat: 51.5202, lng: -0.0938 },
+        { name: "Tate Modern ★", lat: 51.5076, lng: -0.0994 },
+        { name: "The Scoop", lat: 51.5034, lng: -0.0945 },
+        { name: "Westminster", lat: 51.4995, lng: -0.1248 }
     ];
 
-    const map = L.map('map', { zoomControl: false }).setView([51.52, -0.13], 13);
+    const map = L.map('map', { zoomControl: false }).setView([51.50, -0.12], 12);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    const coords = points.map(p => {
-        // Use standard Leaflet Pins (Markers)
-        const marker = L.marker([p.lat, p.lng]).addTo(map);
-        marker.bindPopup(`<strong>${p.name}</strong>`);
-        return [p.lat, p.lng];
+    points.forEach(p => {
+        L.marker([p.lat, p.lng]).addTo(map).bindPopup(`<strong>${p.name}</strong>`);
     });
 
+    const coords = points.map(p => [p.lat, p.lng]);
     L.polyline(coords, { color: '#cbd5e1', weight: 2, dashArray: '5, 10' }).addTo(map);
-    map.fitBounds(L.polyline(coords).getBounds(), { padding: [50, 50] });
+    map.fitBounds(L.polyline(coords).getBounds(), { padding: [40, 40] });
 </script>
 </body>
 </html>
