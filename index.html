@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modernist London | Friday Arrival - Sunday Departure</title>
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/784/784850.png" type="image/png">
+    <title>Trip to London | Modernist Exploration</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -15,16 +15,14 @@
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
         header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; background: #ffffffcc; backdrop-filter: blur(12px); z-index: 1000; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
-        .hero { height: 30vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid #e2e8f0; }
+        .hero { height: 25vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid #e2e8f0; }
         h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
         section { max-width: 1200px; margin: auto; padding: 2rem 1.5rem; }
-        #map { height: 400px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0; }
+        #map { height: 450px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0; }
         .itinerary-grid { display: grid; grid-template-columns: 1fr 320px; gap: 2.5rem; margin-top: 2rem; }
         .day-header { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--accent); margin: 2rem 0 1rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.4rem; }
         .leg-card { background: var(--card); padding: 1.2rem; border-radius: 8px; margin-bottom: 1.2rem; border: 1px solid #e2e8f0; }
-        .free-card { border-left: 4px solid var(--free); }
-        .arch-card { border-left: 4px solid var(--arch); }
-        .bus-card { border-left: 4px solid var(--bus); background: #fef2f2; }
+        .weather-banner { background: #f1f5f9; padding: 0.8rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; }
         .tag { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: bold; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
         .tag-free { background: #e0e7ff; color: #4338ca; }
         .tag-arch { background: #ffedd5; color: #9a3412; }
@@ -35,97 +33,93 @@
 <body>
 
 <header>
-    <div class="logo">ARCHI-TRACE</div>
+    <div class="logo">Trip to London</div>
     <div style="font-size: 0.7rem; letter-spacing: 2px;">APRIL 10 – 12, 2026</div>
 </header>
 
 <section class="hero">
-    <h1>Weekend Itinerary</h1>
-    <p>AM Arrival • Architecture Core • Early Departure</p>
+    <h1>Weekend Explorer</h1>
+    <p>Shopping • Architecture • Seamless Transit</p>
 </section>
 
 <section>
+    <div class="weather-banner">
+        <span>☁️</span> <strong>London Weather:</strong> Friday: Mostly cloudy, High 13°C. Saturday: Cloudy with evening light rain, High 16°C.
+    </div>
     <div id="map"></div>
+    
     <div class="itinerary-grid">
         <div id="route-list">
-            <div class="day-header">Gia Day (Friday) — Arrival</div>
+            <div class="day-header">Gia Day (Friday)</div>
             <div class="leg-card free-card">
-                <strong>Morning: Sherlock Holmes & Marylebone</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Arrive early and head to 221B Baker Street. Visit the Wallace Collection (Free entry) nearby.</p>
-                <span class="tag tag-free">Free & Fun</span>
+                <strong>Morning Arrival & Sherlock Holmes</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Explore Baker Street and the Wallace Collection.</p>
+                <span class="tag tag-free">Culture</span>
             </div>
             <div class="leg-card free-card">
-                <strong>Lunch: Diwan Lebanese</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Excellent budget lunch in the heart of Marylebone.</p>
-                <span class="tag tag-free">Budget Food</span>
-            </div>
-            <div class="leg-card free-card">
-                <strong>Afternoon: Primrose Hill</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Walk through Regent's Park to the hill for the best free panoramic view of London.</p>
-                <span class="tag tag-free">Outdoors</span>
+                <strong>Afternoon: Marylebone Shopping</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Boutique shopping on Marylebone High Street and Daunt Books.</p>
+                <span class="tag tag-free">Shopping</span>
             </div>
 
-            <div class="day-header">Architecture (Saturday)</div>
-            <div class="leg-card arch-card">
-                <strong>Swain’s Lane (Highgate)</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Start at the northern outlier. Modernist villas meets Victorian Gothic.</p>
-                <span class="tag tag-arch">Outlier Visit</span>
-            </div>
-            <div class="leg-card arch-card">
-                <strong>Alexandra Road Estate</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Neave Brown's iconic brutalist ziggurat.</p>
-                <span class="tag tag-arch">Brutalism</span>
-            </div>
-            <div class="leg-card arch-card">
-                <strong>John Nash’s Park Square</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">Observe the private "key-entry" gardens from the exterior terraces.</p>
-                <span class="tag tag-arch">Neoclassical</span>
-            </div>
-            <div class="leg-card arch-card">
-                <strong>The Barbican & Riverside</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">End the day at the Barbican Estate, Tate Modern, and Westminster.</p>
-                <span class="tag tag-arch">Modernist Core</span>
-            </div>
+            <div class="day-header">Architecture Saturday</div>
+            <div id="sat-list"></div>
 
-            <div class="day-header">Departure (Sunday) — 6 AM Flight</div>
+            <div class="day-header">Departure (Sunday)</div>
             <div class="leg-card bus-card">
-                <strong>Airport Coach (3:00 AM Departure)</strong>
-                <p style="font-size:0.85rem; color:var(--sub);">For a 6:00 AM flight, board the National Express A1/A2 from Baker Street or Victoria at ~3:00 AM. 24/7 service.</p>
-                <span class="tag tag-bus">Time Sensitive</span>
+                <strong>3:00 AM Airport Bus</strong>
+                <p style="font-size:0.85rem; color:var(--sub);">Direct coach for 6:00 AM flight departure.</p>
+                <span class="tag tag-bus">Transport</span>
             </div>
         </div>
 
-        <aside class="summary-box">
-            <h3 style="margin-top:0;">Logistics</h3>
-            <p><strong>Gia Day:</strong> Arrival morning. Relaxed Marylebone vibe.</p>
-            <p><strong>Saturday:</strong> High-density architecture day. ~22km total.</p>
-            <p><strong>Sunday:</strong> 3 AM bus is essential for 6 AM flight.</p>
-            <hr style="border:0; border-top:1px solid #e2e8f0; margin:1rem 0;">
-            <p><small>© 2026 Archi-Trace | All Rights Reserved.</small></p>
+        <aside style="background: #f8fafc; padding: 1.5rem; border-radius: 12px; height: fit-content; position: sticky; top: 100px;">
+            <h3 style="margin-top:0; font-family: 'Playfair Display';">Route Summary</h3>
+            <p style="font-size: 0.9rem;">Saturday sequence optimized for geographical flow: North (Highgate) → West (Marylebone) → Central → East (Barbican) → South (Southwark).</p>
+            <hr style="border:0; border-top: 1px solid #e2e8f0; margin: 1rem 0;">
+            <p style="font-size: 0.8rem; color: var(--sub);">© 2026 All Rights Reserved.</p>
         </aside>
     </div>
 </section>
 
 <footer>
-    <p>Contact: logistics@architrace.ldn | All rights reserved.</p>
+    <p>contact@triptolondon.ldn | All rights reserved.</p>
 </footer>
 
 <script>
-    const map = L.map('map', { zoomControl: false }).setView([51.52, -0.13], 12);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
-
-    const locations = [
-        { name: "Baker St", lat: 51.5238, lng: -0.1585 },
-        { name: "Primrose Hill", lat: 51.5410, lng: -0.1606 },
-        { name: "Swain's Lane", lat: 51.5653, lng: -0.1478 },
-        { name: "Alexandra Rd", lat: 51.5395, lng: -0.1789 },
-        { name: "Barbican", lat: 51.5200, lng: -0.0939 },
-        { name: "Victoria (Bus)", lat: 51.4916, lng: -0.1475 }
+    const satSpots = [
+        { name: "Swain's Lane, Highgate", lat: 51.5653, lng: -0.1478, type: "Modernist Villa", tag: "North" },
+        { name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789, type: "Neave Brown Brutalism", tag: "NW" },
+        { name: "Regent Street", lat: 51.5133, lng: -0.1395, type: "Nash Urban Plan", tag: "Central" },
+        { name: "Sir John Soane's Museum", lat: 51.5170, lng: -0.1175, type: "Architectural Gem", tag: "Central" },
+        { name: "Barbican Estate", lat: 51.5200, lng: -0.0939, type: "Brutalist City", tag: "East" },
+        { name: "Tate Modern (Blavatnik)", lat: 51.5076, lng: -0.0994, type: "Herzog & de Meuron", tag: "Southbank" },
+        { name: "The Scoop (Omira St)", lat: 51.5036, lng: -0.0913, type: "Concave Brickwork", tag: "Southwark" },
+        { name: "Westminster", lat: 51.4995, lng: -0.1248, type: "Gothic Heritage", tag: "SW" }
     ];
 
-    locations.forEach(loc => {
-        L.circleMarker([loc.lat, loc.lng], { radius: 5, color: '#0f172a', fillColor: '#fff', fillOpacity: 1 }).addTo(map);
+    const map = L.map('map', { zoomControl: false }).setView([51.53, -0.13], 12);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+    const satList = document.getElementById('sat-list');
+    const coords = [];
+
+    satSpots.forEach(spot => {
+        coords.push([spot.lat, spot.lng]);
+        
+        // Add to list
+        const card = document.createElement('div');
+        card.className = 'leg-card arch-card';
+        card.innerHTML = `<strong>${spot.name}</strong><p style="font-size:0.85rem; color:var(--sub);">${spot.type}</p><span class="tag tag-arch">${spot.tag}</span>`;
+        satList.appendChild(card);
+
+        // Add to map
+        L.circleMarker([spot.lat, spot.lng], { radius: 6, color: '#f97316', fillColor: '#fff', fillOpacity: 1, weight: 2 }).addTo(map).bindPopup(spot.name);
     });
+
+    // Connect dots
+    L.polyline(coords, { color: '#f97316', weight: 2, dashArray: '5, 10', opacity: 0.6 }).addTo(map);
+    map.fitBounds(L.polyline(coords).getBounds(), { padding: [50, 50] });
 </script>
 </body>
 </html>
