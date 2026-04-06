@@ -3,108 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trip to London | Priority Route</title>
+    <title>Trip to London | Priority Circuit</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <style>
-        :root { --bg: #ffffff; --accent: #0f172a; --sub: #64748b; --essential: #6366f1; --estate: #f97316; }
-        body { font-family: 'Inter', sans-serif; margin: 0; color: var(--accent); }
-        header { padding: 1.5rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
-        #map { height: 400px; width: 100%; border-bottom: 1px solid #e2e8f0; }
-        .container { max-width: 800px; margin: auto; padding: 20px; }
-        .leg { padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 5px solid #cbd5e1; background: #f8fafc; }
-        .essential { border-left-color: var(--essential); background: #e0e7ff; }
-        .estate { border-left-color: var(--estate); background: #fff7ed; }
-        .dist { font-size: 0.75rem; color: var(--sub); font-weight: bold; margin-top: 5px; }
-        .hours { font-size: 0.8rem; color: #475569; font-style: italic; }
-        .nav-btn { display: inline-block; margin-top: 20px; padding: 12px 20px; background: #0f172a; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; }
+        :root { --bg: #ffffff; --card: #f8fafc; --accent: #0f172a; --sub: #64748b; --essential: #6366f1; --estate: #f97316; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
+        header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; background: #ffffffcc; backdrop-filter: blur(12px); z-index: 1000; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; }
+        
+        section { max-width: 1100px; margin: auto; padding: 2rem 1.5rem; }
+        #map { height: 450px; width: 100%; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom: 2rem; }
+        
+        .day-header { font-family: 'Playfair Display', serif; font-size: 2rem; margin: 2rem 0 0.5rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem; }
+        .weather-sub { font-size: 0.9rem; color: var(--sub); margin-bottom: 1.5rem; display: block; }
+        
+        .timeline { position: relative; border-left: 2px solid #e2e8f0; margin-left: 20px; padding-left: 30px; }
+        .time-slot { position: relative; margin-bottom: 1.8rem; }
+        .time-slot::before { content: ""; position: absolute; left: -37px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: #cbd5e1; border: 3px solid #fff; }
+        
+        .essential::before { background: var(--essential); }
+        .estate::before { background: var(--estate); }
+        
+        .time { font-weight: 600; font-size: 0.85rem; color: var(--sub); display: block; margin-bottom: 4px; }
+        .activity { font-weight: 600; font-size: 1.1rem; }
+        .desc { font-size: 0.85rem; color: var(--sub); margin-top: 4px; line-height: 1.4; }
+        
+        .star { color: #facc15; font-size: 1.2rem; margin-left: 4px; }
+        
+        .km-tag { display: inline-block; background: #f1f5f9; color: var(--sub); padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-top: 6px; font-weight: bold; }
+        .nav-btn { background: var(--accent); color: white; padding: 10px 18px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 3rem; }
+        .stat-card { background: var(--card); padding: 1.2rem; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center; }
+        .stat-val { display: block; font-size: 1.2rem; font-weight: 700; }
+        
+        footer { padding: 3rem 2rem; border-top: 1px solid #e2e8f0; text-align: center; font-size: 0.75rem; color: var(--sub); }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-weight: 700; font-size: 1.2rem;">Trip to London</div>
-    <a href="https://www.google.com/maps/dir/Alexandra+Road+Estate/Regent+St/Sir+John+Soane's+Museum/Barbican+Estate/Tate+Modern/The+Scoop/Westminster" target="_blank" class="nav-btn" style="margin-top:0;">Open in Google Maps</a>
+    <div class="logo">Trip to London</div>
+    <a href="https://www.google.com/maps/dir/Alexandra+Road+Estate/Regent+St/Sir+John+Soane's+Museum/Barbican+Estate/Tate+Modern/The+Scoop/Westminster" target="_blank" class="nav-btn">Open Map Window</a>
 </header>
 
-<div id="map"></div>
+<section>
+    <div id="map"></div>
 
-<div class="container">
-    <h2 style="font-family: 'Playfair Display';">Saturday Priority Circuit</h2>
-    
-    <div class="leg estate">
-        <strong>1. Alexandra Road Estate (Neave Brown)</strong>
-        <div class="hours">Residential Exterior - Best in daylight</div>
-        <div class="dist">Next stop: 3.2 km</div>
+    <div class="day-header">Architecture Day (Saturday)</div>
+    <span class="weather-sub">☁️ 16°C Cloudy | Total Circuit: 15.5 km</span>
+
+    <div class="timeline">
+        <div class="time-slot estate">
+            <span class="time">10:00</span>
+            <div class="activity">Alexandra Road Estate</div>
+            <div class="desc">Neave Brown's brutalist terraces. Walk the Rowley Way pedestrian path.</div>
+            <span class="km-tag">Start Point</span>
+        </div>
+
+        <div class="time-slot">
+            <span class="time">11:30</span>
+            <div class="activity">Regent Street Architecture</div>
+            <div class="desc">John Nash's Grade II listed urban curve. Shopping & heritage.</div>
+            <span class="km-tag">3.2 km from previous</span>
+        </div>
+
+        <div class="time-slot essential">
+            <span class="time">13:00</span>
+            <div class="activity">Sir John Soane's Museum <span class="star">★</span></div>
+            <div class="desc">Essential Interior. Open 10:00 - 17:00. Free entry.</div>
+            <span class="km-tag">2.1 km from previous</span>
+        </div>
+
+        <div class="time-slot estate">
+            <span class="time">15:00</span>
+            <div class="activity">Barbican Estate</div>
+            <div class="desc">Global Brutalist icon. Explore the Highwalks and Conservatory.</div>
+            <span class="km-tag">1.5 km from previous</span>
+        </div>
+
+        <div class="time-slot essential">
+            <span class="time">17:30</span>
+            <div class="activity">Tate Modern <span class="star">★</span></div>
+            <div class="desc">Essential Industrial Design. Open late until 21:00 on Saturdays.</div>
+            <span class="km-tag">2.4 km from previous</span>
+        </div>
+
+        <div class="time-slot">
+            <span class="time">19:00</span>
+            <div class="activity">The Scoop (Southwark)</div>
+            <div class="desc">Foster + Partners sunken amphitheatre on Omira Street.</div>
+            <span class="km-tag">0.8 km from previous</span>
+        </div>
+
+        <div class="time-slot">
+            <span class="time">20:30</span>
+            <div class="activity">Westminster</div>
+            <div class="desc">Final Gothic heritage stop before early rest.</div>
+            <span class="km-tag">3.1 km from previous</span>
+        </div>
     </div>
 
-    <div class="leg">
-        <strong>2. Regent Street</strong>
-        <div class="hours">Shopping hours: 10:00 - 20:00</div>
-        <div class="dist">Next stop: 2.1 km</div>
+    <div class="stats-grid">
+        <div class="stat-card"><span class="stat-val" style="color:var(--essential);">Essential <span class="star">★</span></span><span class="desc">Soane & Tate</span></div>
+        <div class="stat-card"><span class="stat-val" style="color:var(--estate);">Estates</span><span class="desc">Alexandra & Barbican</span></div>
+        <div class="stat-card"><span class="stat-val">£8.90</span><span class="desc">Daily Tube Cap</span></div>
     </div>
+</section>
 
-    <div class="leg essential">
-        <strong>3. Sir John Soane's Museum ★</strong>
-        <div class="hours">Open: 10:00 - 17:00</div>
-        <div class="dist">Next stop: 1.5 km</div>
-    </div>
-
-    <div class="leg estate">
-        <strong>4. Barbican Estate</strong>
-        <div class="hours">Centre Open: 09:00 - 23:00</div>
-        <div class="dist">Next stop: 2.4 km</div>
-    </div>
-
-    <div class="leg essential">
-        <strong>5. Tate Modern ★</strong>
-        <div class="hours">Open: 10:00 - 21:00</div>
-        <div class="dist">Next stop: 0.8 km</div>
-    </div>
-
-    <div class="leg">
-        <strong>6. The Scoop (Southwark)</strong>
-        <div class="hours">Open 24h - Best at dusk</div>
-        <div class="dist">Next stop: 3.1 km</div>
-    </div>
-
-    <div class="leg">
-        <strong>7. Westminster</strong>
-        <div class="hours">Landmark viewing</div>
-        <div class="dist">End of Saturday Route</div>
-    </div>
-</div>
+<footer>
+    <p>© 2026 Architectural Discovery | All rights reserved.</p>
+</footer>
 
 <script>
-    const route = [
-        { name: "Alexandra Rd", lat: 51.5395, lng: -0.1789, type: 'estate' },
-        { name: "Regent St", lat: 51.5133, lng: -0.1395, type: 'standard' },
-        { name: "Soane Museum", lat: 51.5170, lng: -0.1175, type: 'essential' },
-        { name: "Barbican", lat: 51.5200, lng: -0.0939, type: 'estate' },
-        { name: "Tate Modern", lat: 51.5076, lng: -0.0994, type: 'essential' },
-        { name: "The Scoop", lat: 51.5036, lng: -0.0913, type: 'standard' },
-        { name: "Westminster", lat: 51.4995, lng: -0.1248, type: 'standard' }
+    const points = [
+        { name: "Alexandra Rd", lat: 51.5395, lng: -0.1789, color: '#f97316' },
+        { name: "Regent St", lat: 51.5133, lng: -0.1395, color: '#0f172a' },
+        { name: "Soane Museum", lat: 51.5170, lng: -0.1175, color: '#6366f1' },
+        { name: "Barbican", lat: 51.5200, lng: -0.0939, color: '#f97316' },
+        { name: "Tate Modern", lat: 51.5076, lng: -0.0994, color: '#6366f1' },
+        { name: "The Scoop", lat: 51.5036, lng: -0.0913, color: '#0f172a' },
+        { name: "Westminster", lat: 51.4995, lng: -0.1248, color: '#0f172a' }
     ];
 
     const map = L.map('map', { zoomControl: false }).setView([51.52, -0.13], 13);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    const colors = { essential: '#6366f1', estate: '#f97316', standard: '#0f172a' };
-    const coords = route.map(p => {
-        L.circleMarker([p.lat, p.lng], { 
-            radius: 7, 
-            color: colors[p.type], 
-            fillOpacity: 1, 
-            weight: 2, 
-            fillColor: '#fff' 
-        }).addTo(map).bindPopup(`<strong>${p.name}</strong>`);
+    const coords = points.map(p => {
+        L.circleMarker([p.lat, p.lng], { radius: 7, color: p.color, fillColor: '#fff', fillOpacity: 1, weight: 3 }).addTo(map);
         return [p.lat, p.lng];
     });
 
-    L.polyline(coords, { color: '#94a3b8', weight: 2, dashArray: '5, 10' }).addTo(map);
+    L.polyline(coords, { color: '#cbd5e1', weight: 2, dashArray: '5, 10' }).addTo(map);
     map.fitBounds(L.polyline(coords).getBounds(), { padding: [50, 50] });
 </script>
-
 </body>
 </html>
