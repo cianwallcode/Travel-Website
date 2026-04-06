@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Architectural London | 2026</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏢</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -14,44 +14,77 @@
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--white); color: var(--text); scroll-behavior: smooth; }
         header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #ffffffe6; backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; font-weight: 700; }
-        .hero { height: 30vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=80'); background-size: cover; }
+        .hero { height: 25vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=80'); background-size: cover; }
         .hero h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 0; }
-        .start-btn { margin-top: 1rem; padding: 1rem 2.5rem; background: var(--orange); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; transition: transform 0.2s; border: none; cursor: pointer; }
         .map-container { padding: 2rem; max-width: 1200px; margin: auto; }
-        .map-frame { height: 550px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1rem; }
+        .map-frame { height: 500px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1rem; }
         .day-label { color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; border-bottom: 2px solid var(--orange); display: inline-block; margin-bottom: 1.5rem; }
+        .stats-bar { background: #f8fafc; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.9rem; border-left: 4px solid var(--orange); }
+        .site-card { border-bottom: 1px solid #eee; padding: 1rem 0; }
+        .site-card h4 { margin: 0; color: var(--text); }
+        .site-meta { font-size: 0.8rem; color: var(--sub); margin-top: 5px; }
         footer { padding: 4rem 2rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; }
-        .footer-links { margin-bottom: 1.5rem; }
-        .footer-links a { color: var(--sub); text-decoration: none; margin: 0 1rem; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <header>
     <a href="#" class="logo">LON_ARCH</a>
-    <a href="#" class="start-btn" style="margin-top:0; padding: 0.6rem 1.2rem; font-size: 0.75rem;">View on Google Maps</a>
+    <a href="#" class="logo" style="font-size: 0.9rem; color: var(--text);">2026 Itinerary</a>
 </header>
 
 <div class="hero">
-    <h1>London Itinerary</h1>
-    <p>Friday Exploration & Saturday Architecture | 2026</p>
+    <h1>Your London Journey</h1>
 </div>
 
-<div class="map-container" id="friday">
-    <div class="day-label">Friday: Transit, Shopping & Favorites</div>
+<div class="map-container" id="friday-sect">
+    <div class="day-label">Friday: Transit & Favorites</div>
     <div id="mapFriday" class="map-frame"></div>
+    <div class="stats-bar">
+        <strong>Total Walking:</strong> ~12.5 km | <strong>Theme:</strong> Arrival, Shopping & Museums
+    </div>
 </div>
 
-<div class="map-container" id="saturday">
+<div class="map-container" id="saturday-sect">
     <div class="day-label">Saturday: Core Architecture</div>
     <div id="mapSaturday" class="map-frame"></div>
+    <div class="stats-bar">
+        <strong>Total Walking:</strong> ~15.2 km | <strong>Theme:</strong> Brutalism & Landmarks
+    </div>
+    
+    <div class="content">
+        <div class="site-card">
+            <h4>Home (Mapleton Rd)</h4>
+            <div class="site-meta">Start Point | 09:00 AM</div>
+        </div>
+        <div class="site-card">
+            <h4>Regent's Park</h4>
+            <div class="site-meta">Transit: 45m | Stay: 1h | Distance: 0.5km to next</div>
+        </div>
+        <div class="site-card">
+            <h4>Regent Street Architecture</h4>
+            <div class="site-meta">Walk: 10m | Stay: 1.5h | Distance: 1.2km to next</div>
+        </div>
+        <div class="site-card">
+            <h4>Sir John Soane's Museum</h4>
+            <div class="site-meta">Transit: 15m | Stay: 2h | Distance: 1.5km to next</div>
+        </div>
+        <div class="site-card">
+            <h4>Barbican Estate ("The Barbarian")</h4>
+            <div class="site-meta">Transit: 20m | Stay: 2h | Distance: 2.4km to next</div>
+        </div>
+        <div class="site-card">
+            <h4>Tate Modern</h4>
+            <div class="site-meta">Transit: 25m | Stay: 3h (Dinner) | Distance: 1.1km to next</div>
+        </div>
+        <div class="site-card">
+            <h4>Westminster</h4>
+            <div class="site-meta">Transit: 15m | Stay: 1h | Final Stop</div>
+        </div>
+    </div>
 </div>
 
 <footer>
-    <div class="footer-links">
-        <a href="mailto:contact@lonarch.com">Contact Information</a>
-        <a href="#">Privacy Policy</a>
-    </div>
     <p>© 2026 Architectural Discovery. All rights reserved to all files written.</p>
 </footer>
 
@@ -61,50 +94,43 @@
     const HOME_COLOR = '#f97316';
     const tiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
-    // Friday Map - Now including Alexandra Road and Matcha spots
+    // Friday Map
     const mapFri = L.map('mapFriday').setView([51.50, -0.15], 11);
     L.tileLayer(tiles).addTo(mapFri);
-    
     const friPoints = [
-        { name: "Heathrow Airport", lat: 51.4707, lng: -0.4599 },
+        { name: "Heathrow", lat: 51.4707, lng: -0.4599 },
         { name: "Victoria Coach Station", lat: 51.4931, lng: -0.1486 },
         { name: "Home", lat: 51.4536, lng: -0.1951, color: HOME_COLOR },
         { name: "Alexandra Road Estate", lat: 51.5395, lng: -0.1789 },
         { name: "National Gallery", lat: 51.5089, lng: -0.1283 },
         { name: "Natural History Museum", lat: 51.4967, lng: -0.1764 },
-        { name: "Camden Lock Market", lat: 51.5415, lng: -0.1458 },
+        { name: "Camden Market", lat: 51.5415, lng: -0.1458 },
         { name: "Sherlock Holmes Museum", lat: 51.5237, lng: -0.1585 },
         { name: "Daunt Books", lat: 51.5208, lng: -0.1531 },
         { name: "Match Shop", lat: 51.5380, lng: -0.1800 },
         { name: "Zara / H&M", lat: 51.5153, lng: -0.1420 },
-        { name: "Blank Street Coffee (Matcha)", lat: 51.5172, lng: -0.1430 },
-        { name: "JENKI Matcha Selfridges", lat: 51.5147, lng: -0.1534 },
-        { name: "Omotesando Koffee (Matcha)", lat: 51.5166, lng: -0.1348 }
+        { name: "Matcha Spots", lat: 51.5150, lng: -0.1450 }
     ];
-
     friPoints.forEach(p => {
-        L.circleMarker([p.lat, p.lng], {
-            radius: 8, fillColor: p.color || FRI_COLOR, color: "#fff", weight: 2, fillOpacity: 0.9
-        }).addTo(mapFri).bindPopup(`<strong>${p.name}</strong>`);
+        L.circleMarker([p.lat, p.lng], { radius: 8, fillColor: p.color || FRI_COLOR, color: "#fff", weight: 2, fillOpacity: 0.9 }).addTo(mapFri).bindPopup(p.name);
     });
 
     // Saturday Map
-    const mapSat = L.map('mapSaturday').setView([51.51, -0.11], 13);
+    const mapSat = L.map('mapSaturday').setView([51.50, -0.12], 12);
     L.tileLayer(tiles).addTo(mapSat);
-
     const satPoints = [
         { name: "Home", lat: 51.4536, lng: -0.1951, color: HOME_COLOR },
-        { name: "Sir John Soane's Museum", lat: 51.5170, lng: -0.1175, color: SAT_COLOR },
-        { name: "LSE Saw Swee Hock", lat: 51.5144, lng: -0.1165, color: SAT_COLOR },
-        { name: "Tate Modern", lat: 51.5076, lng: -0.0994, color: SAT_COLOR },
-        { name: "The Scoop", lat: 51.5034, lng: -0.0945, color: SAT_COLOR },
-        { name: "Westminster", lat: 51.4995, lng: -0.1248, color: SAT_COLOR }
+        { name: "Regent's Park", lat: 51.5313, lng: -0.1570 },
+        { name: "Regent Street", lat: 51.5133, lng: -0.1395 },
+        { name: "Sir John Soane's", lat: 51.5170, lng: -0.1175 },
+        { name: "Barbican", lat: 51.5202, lng: -0.0938 },
+        { name: "LSE Saw Swee Hock", lat: 51.5144, lng: -0.1165 },
+        { name: "Tate Modern", lat: 51.5076, lng: -0.0994 },
+        { name: "The Scoop", lat: 51.5034, lng: -0.0945 },
+        { name: "Westminster", lat: 51.4995, lng: -0.1248 }
     ];
-
     satPoints.forEach(p => {
-        L.circleMarker([p.lat, p.lng], {
-            radius: 8, fillColor: p.color, color: "#fff", weight: 2, fillOpacity: 0.9
-        }).addTo(mapSat).bindPopup(`<strong>${p.name}</strong>`);
+        L.circleMarker([p.lat, p.lng], { radius: 8, fillColor: p.color || SAT_COLOR, color: "#fff", weight: 2, fillOpacity: 0.9 }).addTo(mapSat).bindPopup(p.name);
     });
 </script>
 
