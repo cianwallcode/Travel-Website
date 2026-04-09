@@ -3,104 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architectural London | 2026</title>
+    <title>London Trip 2026 | Architectural Discovery</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        :root { --orange: #f97316; --white: #ffffff; --text: #0f172a; --sub: #64748b; --friday: #10b981; --saturday: #6366f1; }
+        :root { --orange: #f97316; --white: #ffffff; --text: #0f172a; --sub: #64748b; }
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--white); color: var(--text); scroll-behavior: smooth; }
         header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #ffffffe6; backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; font-weight: 700; }
-        .hero { height: 20vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)); }
+        header .logo-container { display: flex; align-items: center; cursor: pointer; text-decoration: none; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); font-weight: 700; }
+        .hero { padding: 4rem 2rem; text-align: center; background: #fffbf7; }
+        .hero h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 0; }
+        .hero p { color: var(--sub); font-size: 1.1rem; }
         .map-container { padding: 2rem; max-width: 1200px; margin: auto; }
-        .map-frame { height: 500px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1rem; }
+        .map-frame { height: 450px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1.5rem; }
         .day-label { color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; border-bottom: 2px solid var(--orange); display: inline-block; margin-bottom: 1.5rem; }
-        .stats-bar { background: #f8fafc; padding: 1.2rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.9rem; border-left: 4px solid var(--orange); }
-        .site-card { border-bottom: 1px solid #eee; padding: 1rem 0; }
-        .site-card h4 { margin: 0; color: var(--text); }
-        .site-meta { font-size: 0.8rem; color: var(--sub); margin-top: 5px; line-height: 1.4; }
-        footer { padding: 3rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; font-size: 0.8rem; color: var(--sub); }
+        .itinerary-list { list-style: none; padding: 0; margin-bottom: 3rem; }
+        .itinerary-item { padding: 1.5rem 0; border-bottom: 1px solid #f1f5f9; }
+        .itinerary-item:last-child { border: none; }
+        .time-slot { font-weight: 700; color: var(--orange); display: block; margin-bottom: 0.5rem; }
+        .location-name { font-size: 1.25rem; font-weight: 600; margin: 0; }
+        .meta-info { font-size: 0.9rem; color: var(--sub); margin-top: 0.5rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .cta-btn { background: var(--orange); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; display: inline-block; margin-top: 2rem; transition: transform 0.2s; border: none; cursor: pointer; }
+        .cta-btn:hover { transform: translateY(-2px); }
+        footer { padding: 4rem 2rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; }
+        .contact-links { margin-bottom: 2rem; font-size: 0.9rem; }
+        .contact-links a { color: var(--sub); text-decoration: none; margin: 0 1rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="#" class="logo">LON_ARCH</a>
-    <span style="font-weight: 600; color: var(--orange);">April 2026</span>
+    <a href="#" class="logo-container">
+        <span class="logo">London Trip 2026</span>
+    </a>
+    <nav><button class="cta-btn" style="margin:0; padding: 0.6rem 1.2rem;">Start Project</button></nav>
 </header>
 
-<div class="map-container" id="fri-sect">
-    <div class="day-label">Friday: Arrival & Parks</div>
-    <div id="mapFriday" class="map-frame"></div>
-    <div class="stats-bar">
-        <strong>Total Walking:</strong> ~11.8 km | <strong>Arrival:</strong> 10:00 AM | <strong>Finish:</strong> 09:00 PM
-    </div>
-    <div class="content">
-        <div class="site-card"><h4>Luton Airport</h4><div class="site-meta">Arrival | 10:00 AM</div></div>
-        <div class="site-card"><h4>Victoria Coach Station</h4><div class="site-meta">Transit: 1h 20m | Stay: 30m</div></div>
-        <div class="site-card"><h4>Regent's Park</h4><div class="site-meta">Transit: 25m | Stay: 1.5h</div></div>
-        <div class="site-card"><h4>Zara & H&M (Oxford St)</h4><div class="site-meta">Transit: 15m (Bus 453) | Stay: 2.5h</div></div>
-        <div class="site-card"><h4>Home (Mapleton Rd)</h4><div class="site-meta">Transit: 50m | Finish: 09:00 PM</div></div>
-    </div>
+<div class="hero" id="start">
+    <h1>Architecture & Transit</h1>
+    <p>A curated two-day journey through Nash's London and Brutalist landmarks.</p>
 </div>
 
-<div class="map-container" id="sat-sect">
-    <div class="day-label">Saturday: Architecture & Culture</div>
+<div class="map-container">
+    <div class="day-label">Friday: Northern Loop & Nash Axis</div>
+    <div id="mapFriday" class="map-frame"></div>
+    <ul class="itinerary-list">
+        <li class="itinerary-item">
+            <span class="time-slot">12:00 – 14:00</span>
+            <h3 class="location-name">Nap Duration (Home)</h3>
+            <div class="meta-info"><span>🏠 Mapleton Rd</span><span>⏱️ 2h</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">14:45 – 15:45</span>
+            <h3 class="location-name">Alexandra & Ainsworth Estate</h3>
+            <div class="meta-info"><span>🏗️ Brutalist Icon</span><span>📍 NW8 0SN</span><span>💰 Free</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">16:05 – 16:20</span>
+            <h3 class="location-name">The Regent's Park</h3>
+            <div class="meta-info"><span>🌳 Royal Park Walk</span><span>⏱️ 15m</span><span>💰 Free</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">16:30 – 18:00</span>
+            <h3 class="location-name">Sherlock Holmes & Daunt Books</h3>
+            <div class="meta-info"><span>📖 Marylebone Heritage</span><span>📍 Baker St & High St</span><span>💰 Museum: £19</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">18:15 – 20:15</span>
+            <h3 class="location-name">Zara, H&M & Matcha</h3>
+            <div class="meta-info"><span>🛍️ Retail Circuit</span><span>🚌 Via Bus 453</span><span>🍵 Matcha: £6</span></div>
+        </li>
+    </ul>
+
+    <div class="day-label">Saturday: Southern Heritage & South Bank</div>
     <div id="mapSaturday" class="map-frame"></div>
-    <div class="stats-bar">
-        <strong>Total Walking:</strong> ~14.5 km | <strong>Start:</strong> 09:00 AM | <strong>Finish:</strong> 10:45 PM
-    </div>
-    <div class="content">
-        <div class="site-card"><h4>Home (Mapleton Rd)</h4><div class="site-meta">Start | 09:00 AM</div></div>
-        <div class="site-card"><h4>National History Museum</h4><div class="site-meta">Transit: 30m | Stay: 2h</div></div>
-        <div class="site-card"><h4>National Gallery</h4><div class="site-meta">Transit: 20m | Stay: 1.5h</div></div>
-        <div class="site-card"><h4>Barbican Estate</h4><div class="site-meta">Transit: 25m | Stay: 2h</div></div>
-        <div class="site-card"><h4>Tate Modern</h4><div class="site-meta">Transit: 25m | Stay: 3h (Dinner)</div></div>
-        <div class="site-card"><h4>Westminster (Night View)</h4><div class="site-meta">Transit: 15m | Stay: 1h | Final Stop</div></div>
-    </div>
+    <ul class="itinerary-list">
+        <li class="itinerary-item">
+            <span class="time-slot">10:00 – 12:30</span>
+            <h3 class="location-name">Natural History Museum</h3>
+            <div class="meta-info"><span>🦖 Romanesque Architecture</span><span>📍 SW7 5BD</span><span>💰 Free (Book Slot)</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">12:50 – 14:20</span>
+            <h3 class="location-name">The National Gallery</h3>
+            <div class="meta-info"><span>🎨 Neoclassical Landmark</span><span>📍 WC2N 5DN</span><span>💰 Free</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">14:45 – 16:45</span>
+            <h3 class="location-name">Barbican Estate</h3>
+            <div class="meta-info"><span>🏢 The Barbarian</span><span>📍 EC2Y 8DS</span><span>💰 Free</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">17:10 – 20:10</span>
+            <h3 class="location-name">Tate Modern & Dinner</h3>
+            <div class="meta-info"><span>🖼️ Contemporary Art</span><span>🍴 Meal: £13–£40</span><span>💰 Gallery: Free</span></div>
+        </li>
+        <li class="itinerary-item">
+            <span class="time-slot">20:25 – 21:25</span>
+            <h3 class="location-name">Westminster Night View</h3>
+            <div class="meta-info"><span>🏛️ Final Stop</span><span>📍 Westminster</span><span>💰 Free</span></div>
+        </li>
+    </ul>
 </div>
+
+<div id="inventory" style="display:none; padding: 2rem; text-align: center;">Inventory Page (Blank)</div>
+<div id="comparison" style="display:none; padding: 2rem; text-align: center;">Comparison Page (Blank)</div>
 
 <footer>
+    <div class="contact-links">
+        <a href="mailto:contact@lonarch2026.com">contact@lonarch2026.com</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+    </div>
     <p>© 2026 Architectural Discovery. All rights reserved to all files written.</p>
 </footer>
 
 <script>
-    const FRI_COLOR = '#10b981';
-    const SAT_COLOR = '#6366f1';
     const ORANGE = '#f97316';
     const tiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
-    // Friday Map
-    const mapFri = L.map('mapFriday').setView([51.52, -0.15], 11);
+    // Map Friday
+    const mapFri = L.map('mapFriday').setView([51.525, -0.155], 13);
     L.tileLayer(tiles).addTo(mapFri);
     const friPoints = [
-        { name: "Luton Airport", lat: 51.8763, lng: -0.3717, color: ORANGE },
-        { name: "Victoria Coach Station", lat: 51.4931, lng: -0.1486, color: ORANGE },
-        { name: "Regent's Park", lat: 51.5313, lng: -0.1570, color: FRI_COLOR },
-        { name: "Zara / H&M", lat: 51.5153, lng: -0.1420, color: FRI_COLOR },
-        { name: "Home", lat: 51.4536, lng: -0.1951, color: ORANGE }
+        { name: "Home", lat: 51.4536, lng: -0.1951 },
+        { name: "Alexandra Road", lat: 51.5395, lng: -0.1789 },
+        { name: "Regent's Park", lat: 51.5313, lng: -0.1570 },
+        { name: "Sherlock Holmes Museum", lat: 51.5237, lng: -0.1585 },
+        { name: "Daunt Books", lat: 51.5208, lng: -0.1531 },
+        { name: "Oxford Street", lat: 51.5153, lng: -0.1420 }
     ];
-    friPoints.forEach(p => {
-        L.circleMarker([p.lat, p.lng], { radius: 9, fillColor: p.color, color: "#fff", weight: 2, fillOpacity: 0.9 }).addTo(mapFri).bindPopup(p.name);
-    });
+    friPoints.forEach(p => L.circleMarker([p.lat, p.lng], { radius: 8, fillColor: ORANGE, color: "#fff", weight: 2, fillOpacity: 1 }).addTo(mapFri).bindPopup(p.name));
 
-    // Saturday Map
-    const mapSat = L.map('mapSaturday').setView([51.50, -0.12], 12);
+    // Map Saturday
+    const mapSat = L.map('mapSaturday').setView([51.51, -0.12], 12);
     L.tileLayer(tiles).addTo(mapSat);
     const satPoints = [
-        { name: "Home", lat: 51.4536, lng: -0.1951, color: ORANGE },
-        { name: "National History Museum", lat: 51.4967, lng: -0.1764, color: SAT_COLOR },
-        { name: "National Gallery", lat: 51.5089, lng: -0.1283, color: SAT_COLOR },
-        { name: "Barbican", lat: 51.5202, lng: -0.0938, color: SAT_COLOR },
-        { name: "Tate Modern", lat: 51.5076, lng: -0.0994, color: SAT_COLOR },
-        { name: "Westminster", lat: 51.4995, lng: -0.1248, color: SAT_COLOR }
+        { name: "NHM", lat: 51.4967, lng: -0.1764 },
+        { name: "National Gallery", lat: 51.5089, lng: -0.1283 },
+        { name: "Barbican", lat: 51.5202, lng: -0.0938 },
+        { name: "Tate Modern", lat: 51.5076, lng: -0.0994 },
+        { name: "Westminster", lat: 51.4995, lng: -0.1248 }
     ];
-    satPoints.forEach(p => {
-        L.circleMarker([p.lat, p.lng], { radius: 9, fillColor: p.color, color: "#fff", weight: 2, fillOpacity: 0.9 }).addTo(mapSat).bindPopup(p.name);
-    });
+    satPoints.forEach(p => L.circleMarker([p.lat, p.lng], { radius: 8, fillColor: ORANGE, color: "#fff", weight: 2, fillOpacity: 1 }).addTo(mapSat).bindPopup(p.name));
 </script>
 </body>
 </html>
