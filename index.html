@@ -21,7 +21,8 @@
         th { text-align: left; padding: 12px; border-bottom: 2px solid #f1f5f9; color: var(--sub); text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
         .fav { color: #eab308; font-weight: bold; }
-        .cta-btn { background: var(--orange); color: white; padding: 0.6rem 1.2rem; border-radius: 50px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; }
+        .cta-btn { background: var(--orange); color: white; padding: 0.6rem 1.2rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
+        .cta-btn:hover { background: #ea580c; }
         footer { padding: 3rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; font-size: 0.8rem; color: var(--sub); }
     </style>
 </head>
@@ -29,7 +30,7 @@
 
 <header>
     <a href="#" class="logo">London Trip 2026</a>
-    <button class="cta-btn">Start Project</button>
+    <a href="https://www.google.com/maps/dir/London+Luton+Airport,+Airport+Way,+Luton/Victoria+Coach+Station,+London/Alexandra+Road+Estate,+London/The+Regent's+Park,+London/The+Sherlock+Holmes+Museum,+Baker+Street,+London/Daunt+Books,+Marylebone+High+Street,+London/Natural+History+Museum,+Cromwell+Road,+London/The+National+Gallery,+Trafalgar+Square,+London/Sir+John+Soane's+Museum,+Lincoln's+Inn+Fields,+London/Barbican+Estate,+London/Tate+Modern,+Bankside,+London/Westminster+Abbey,+London" target="_blank" class="cta-btn">Open in Google Maps</a>
 </header>
 
 <div class="map-container">
@@ -41,17 +42,18 @@
                 <th>Time</th>
                 <th>Name</th>
                 <th>Duration</th>
-                <th>Transport & Distance</th>
+                <th>Transport & Travel Time</th>
+                <th>Opening Hours</th>
             </tr>
         </thead>
         <tbody>
-            <tr><td>09:00</td><td>Luton Airport (Red)</td><td>-</td><td>Coach (34 mi)</td></tr>
-            <tr><td>10:30</td><td>Victoria Station (Red)</td><td>15m</td><td>Train (4.2 mi)</td></tr>
-            <tr><td>12:00</td><td>Home (Red)</td><td>2h (Nap)</td><td>-</td></tr>
-            <tr><td>14:45</td><td>Alexandra Road Estate</td><td>1h</td><td>Bus (4.8 mi)</td></tr>
-            <tr><td>16:05</td><td>Regent's Park</td><td>15m</td><td>Walk (1.2 mi)</td></tr>
-            <tr><td>16:30</td><td>Sherlock Holmes Museum</td><td>45m</td><td>Walk (0.4 mi)</td></tr>
-            <tr><td>17:30</td><td>Daunt Books & Shopping</td><td>2.5h</td><td>Bus 453 (1.5 mi)</td></tr>
+            <tr><td>09:00</td><td>Luton Airport (Red)</td><td>-</td><td>Coach (1h 25m)</td><td>24/7</td></tr>
+            <tr><td>10:30</td><td>Victoria Station (Red)</td><td>15m</td><td>Train (45m)</td><td>24/7</td></tr>
+            <tr><td>12:00</td><td>Home (Red)</td><td>2h (Nap)</td><td>-</td><td>-</td></tr>
+            <tr><td>14:45</td><td>Alexandra Road Estate</td><td>1h</td><td>Bus (45m)</td><td>24/7 (Exterior)</td></tr>
+            <tr><td>16:05</td><td>Regent's Park</td><td>15m</td><td>Walk (20m)</td><td>05:00 - 21:00</td></tr>
+            <tr><td>16:30</td><td>Sherlock Holmes Museum</td><td>45m</td><td>Walk (10m)</td><td>09:30 - 18:00</td></tr>
+            <tr><td>17:30</td><td>Daunt Books & Shopping</td><td>2.5h</td><td>Bus 453 (15m)</td><td>09:00 - 19:30</td></tr>
         </tbody>
     </table>
 
@@ -63,16 +65,17 @@
                 <th>Time</th>
                 <th>Name</th>
                 <th>Duration</th>
-                <th>Transport & Distance</th>
+                <th>Transport & Travel Time</th>
+                <th>Opening Hours</th>
             </tr>
         </thead>
         <tbody>
-            <tr><td>10:00</td><td>Natural History Museum</td><td>2h</td><td>Tube (2.8 mi)</td></tr>
-            <tr><td>12:30</td><td>The National Gallery</td><td>1.5h</td><td>Tube (2.4 mi)</td></tr>
-            <tr><td>14:30</td><td><span class="fav">★ Sir John Soane's Museum</span></td><td>1.5h</td><td>Walk (0.8 mi)</td></tr>
-            <tr><td>16:30</td><td>Barbican Estate</td><td>1.5h</td><td>Tube (1.4 mi)</td></tr>
-            <tr><td>18:30</td><td>Tate Modern & Dinner</td><td>2.5h</td><td>Walk (1.1 mi)</td></tr>
-            <tr><td>21:15</td><td>Westminster Night View</td><td>45m</td><td>Bus (1.3 mi)</td></tr>
+            <tr><td>10:00</td><td>Natural History Museum</td><td>2h</td><td>Tube (30m)</td><td>10:00 - 17:50</td></tr>
+            <tr><td>12:30</td><td>The National Gallery</td><td>1.5h</td><td>Tube (20m)</td><td>10:00 - 18:00</td></tr>
+            <tr><td>14:30</td><td><span class="fav">★ Sir John Soane's Museum</span></td><td>1.5h</td><td>Walk (25m)</td><td>10:00 - 17:00</td></tr>
+            <tr><td>16:30</td><td>Barbican Estate</td><td>1.5h</td><td>Tube (25m)</td><td>09:30 - 23:00</td></tr>
+            <tr><td>18:30</td><td>Tate Modern & Dinner</td><td>2.5h</td><td>Walk (15m)</td><td>10:00 - 21:00</td></tr>
+            <tr><td>21:15</td><td>Westminster Night View</td><td>45m</td><td>Bus (15m)</td><td>24/7</td></tr>
         </tbody>
     </table>
 </div>
@@ -95,7 +98,6 @@
         });
     }
 
-    // Friday Map
     const mapFri = L.map('mapFriday').setView([51.53, -0.16], 11);
     L.tileLayer(tiles).addTo(mapFri);
     const fri = [
@@ -109,7 +111,6 @@
     ];
     fri.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapFri).bindPopup(p.name));
 
-    // Saturday Map
     const mapSat = L.map('mapSaturday').setView([51.51, -0.13], 13);
     L.tileLayer(tiles).addTo(mapSat);
     const sat = [
