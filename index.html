@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>London Trip 2026 | Architectural Discovery</title>
+    <title>Architectural Discovery | London & Barcelona</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✈️</text></svg>">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -12,72 +12,141 @@
         :root { --orange: #f97316; --white: #ffffff; --text: #0f172a; --sub: #64748b; --red: #ef4444; }
         * { box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; margin: 0; background: var(--white); color: var(--text); scroll-behavior: smooth; }
+        
+        /* Navigation & Header */
         header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #ffffffe6; backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
         .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; font-weight: 700; }
+        .nav-links { display: flex; gap: 1rem; align-items: center; }
+        .nav-tab { background: none; border: none; font-size: 1rem; font-weight: 600; color: var(--sub); cursor: pointer; padding: 0.5rem 1rem; border-radius: 20px; transition: all 0.2s; }
+        .nav-tab.active { background: #fff7ed; color: var(--orange); }
+        .cta-btn { background: var(--orange); color: white; padding: 0.6rem 1.2rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: background 0.2s; display: inline-block; }
+        .cta-btn:hover { background: #ea580c; }
+        
+        /* Layout & Views */
+        .page-view { display: none; }
+        .page-view.active { display: block; }
         .map-container { padding: 2rem; max-width: 1200px; margin: auto; }
         .map-frame { height: 500px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1.5rem; }
         .day-label { color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; border-bottom: 2px solid var(--orange); display: inline-block; margin-bottom: 1.5rem; }
+        
+        /* Tables */
         table { width: 100%; border-collapse: collapse; margin-bottom: 3rem; font-size: 0.9rem; }
         th { text-align: left; padding: 12px; border-bottom: 2px solid #f1f5f9; color: var(--sub); text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
         .fav { color: #eab308; font-weight: bold; }
-        .cta-btn { background: var(--orange); color: white; padding: 0.6rem 1.2rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: background 0.2s; }
-        .cta-btn:hover { background: #ea580c; }
+        
         footer { padding: 3rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; font-size: 0.8rem; color: var(--sub); }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="#" class="logo">London Trip 2026</a>
-    <a href="https://www.google.com/maps/dir/London+Luton+Airport,+Airport+Way,+Luton/Victoria+Coach+Station,+London/Alexandra+Road+Estate,+London/The+Regent's+Park,+London/The+Sherlock+Holmes+Museum,+Baker+Street,+London/Daunt+Books,+Marylebone+High+Street,+London/Natural+History+Museum,+Cromwell+Road,+London/The+National+Gallery,+Trafalgar+Square,+London/Sir+John+Soane's+Museum,+Lincoln's+Inn+Fields,+London/Barbican+Estate,+London/Tate+Modern,+Bankside,+London/Westminster+Abbey,+London" target="_blank" class="cta-btn">Open in Google Maps</a>
+    <a href="#" class="logo">Architectural Discovery</a>
+    <div class="nav-links">
+        <button class="nav-tab active" onclick="switchPage('london')">London 2026</button>
+        <button class="nav-tab" onclick="switchPage('barcelona')">Barcelona 2026</button>
+        <a id="maps-link" href="https://www.google.com/maps/dir/London+Luton+Airport,+Airport+Way,+Luton/Victoria+Coach+Station,+London/Alexandra+Road+Estate,+London/The+Regent's+Park,+London/The+Sherlock+Holmes+Museum,+Baker+Street,+London/Daunt+Books,+Marylebone+High+Street,+London/Natural+History+Museum,+Cromwell+Road,+London/The+National+Gallery,+Trafalgar+Square,+London/Sir+John+Soane's+Museum,+Lincoln's+Inn+Fields,+London/Barbican+Estate,+London/Tate+Modern,+Bankside,+London/Westminster+Abbey,+London" target="_blank" class="cta-btn">Open in Google Maps</a>
+    </div>
 </header>
 
-<div class="map-container">
-    <div class="day-label">Friday: Northern Arrival & Shopping</div>
-    <div id="mapFriday" class="map-frame"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Name</th>
-                <th>Duration</th>
-                <th>Transport & Travel Time</th>
-                <th>Opening Hours</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>09:00</td><td>Luton Airport (Red)</td><td>-</td><td>Coach (1h 25m)</td><td>24/7</td></tr>
-            <tr><td>10:30</td><td>Victoria Station (Red)</td><td>15m</td><td>Train (45m)</td><td>24/7</td></tr>
-            <tr><td>12:00</td><td>Home (Red)</td><td>2h (Nap)</td><td>-</td><td>-</td></tr>
-            <tr><td>14:45</td><td>Alexandra Road Estate</td><td>1h</td><td>Bus (45m)</td><td>24/7 (Exterior)</td></tr>
-            <tr><td>16:05</td><td>Regent's Park</td><td>15m</td><td>Walk (20m)</td><td>05:00 - 21:00</td></tr>
-            <tr><td>16:30</td><td>Sherlock Holmes Museum</td><td>45m</td><td>Walk (10m)</td><td>09:30 - 18:00</td></tr>
-            <tr><td>17:30</td><td>Daunt Books & Shopping</td><td>2.5h</td><td>Bus 453 (15m)</td><td>09:00 - 19:30</td></tr>
-        </tbody>
-    </table>
+<!-- PAGE 1: LONDON TRIP 2026 -->
+<div id="page-london" class="page-view active">
+    <div class="map-container">
+        <div class="day-label">Friday: Northern Arrival & Shopping</div>
+        <div id="mapFriday" class="map-frame"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Transport & Travel Time</th>
+                    <th>Opening Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>09:00</td><td>Luton Airport (Red)</td><td>-</td><td>Coach (1h 25m)</td><td>24/7</td></tr>
+                <tr><td>10:30</td><td>Victoria Station (Red)</td><td>15m</td><td>Train (45m)</td><td>24/7</td></tr>
+                <tr><td>12:00</td><td>Home (Red)</td><td>2h (Nap)</td><td>-</td><td>-</td></tr>
+                <tr><td>14:45</td><td>Alexandra Road Estate</td><td>1h</td><td>Bus (45m)</td><td>24/7 (Exterior)</td></tr>
+                <tr><td>16:05</td><td>Regent's Park</td><td>15m</td><td>Walk (20m)</td><td>05:00 - 21:00</td></tr>
+                <tr><td>16:30</td><td>Sherlock Holmes Museum</td><td>45m</td><td>Walk (10m)</td><td>09:30 - 18:00</td></tr>
+                <tr><td>17:30</td><td>Daunt Books & Shopping</td><td>2.5h</td><td>Bus 453 (15m)</td><td>09:00 - 19:30</td></tr>
+            </tbody>
+        </table>
 
-    <div class="day-label">Saturday: Culture & South Bank</div>
-    <div id="mapSaturday" class="map-frame"></div>
-    <table>
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Name</th>
-                <th>Duration</th>
-                <th>Transport & Travel Time</th>
-                <th>Opening Hours</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>10:00</td><td>Natural History Museum</td><td>2h</td><td>Tube (30m)</td><td>10:00 - 17:50</td></tr>
-            <tr><td>12:30</td><td>The National Gallery</td><td>1.5h</td><td>Tube (20m)</td><td>10:00 - 18:00</td></tr>
-            <tr><td>14:30</td><td><span class="fav">★ Sir John Soane's Museum</span></td><td>1.5h</td><td>Walk (25m)</td><td>10:00 - 17:00</td></tr>
-            <tr><td>16:30</td><td>Barbican Estate</td><td>1.5h</td><td>Tube (25m)</td><td>09:30 - 23:00</td></tr>
-            <tr><td>18:30</td><td>Tate Modern & Dinner</td><td>2.5h</td><td>Walk (15m)</td><td>10:00 - 21:00</td></tr>
-            <tr><td>21:15</td><td>Westminster Night View</td><td>45m</td><td>Bus (15m)</td><td>24/7</td></tr>
-        </tbody>
-    </table>
+        <div class="day-label">Saturday: Culture & South Bank</div>
+        <div id="mapSaturday" class="map-frame"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Transport & Travel Time</th>
+                    <th>Opening Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>10:00</td><td>Natural History Museum</td><td>2h</td><td>Tube (30m)</td><td>10:00 - 17:50</td></tr>
+                <tr><td>12:30</td><td>The National Gallery</td><td>1.5h</td><td>Tube (20m)</td><td>10:00 - 18:00</td></tr>
+                <tr><td>14:30</td><td><span class="fav">★ Sir John Soane's Museum</span></td><td>1.5h</td><td>Walk (25m)</td><td>10:00 - 17:00</td></tr>
+                <tr><td>16:30</td><td>Barbican Estate</td><td>1.5h</td><td>Tube (25m)</td><td>09:30 - 23:00</td></tr>
+                <tr><td>18:30</td><td>Tate Modern & Dinner</td><td>2.5h</td><td>Walk (15m)</td><td>10:00 - 21:00</td></tr>
+                <tr><td>21:15</td><td>Westminster Night View</td><td>45m</td><td>Bus (15m)</td><td>24/7</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- PAGE 2: BARCELONA ARCHITECTURAL & URBAN DEVELOPMENT TRIP -->
+<div id="page-barcelona" class="page-view">
+    <div class="map-container">
+        <div class="day-label">Day 1: The Cerdà Grid & Modernisme Axis</div>
+        <div id="mapBcn1" class="map-frame"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Transport & Travel Time</th>
+                    <th>Opening Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>09:00</td><td>El Prat Airport (Red)</td><td>-</td><td>Aerobús (35m)</td><td>24/7</td></tr>
+                <tr><td>10:00</td><td>Plaça de Catalunya / Hotel</td><td>1h</td><td>Walk (10m)</td><td>-</td></tr>
+                <tr><td>11:15</td><td>Passeig de Gràcia (Block of Discord)</td><td>1.5h</td><td>Walk (10m)</td><td>24/7 (Exterior)</td></tr>
+                <tr><td>13:00</td><td>Casa Milà (La Pedrera)</td><td>1.5h</td><td>Walk (10m)</td><td>09:00 - 20:30</td></tr>
+                <tr><td>14:45</td><td>Eixample Lunch & Cerdà Urban Study</td><td>1.5h</td><td>Walk (5m)</td><td>13:00 - 16:00</td></tr>
+                <tr><td>16:30</td><td><span class="fav">★ Basílica de la Sagrada Família</span></td><td>2h</td><td>Metro L2 (15m)</td><td>09:00 - 20:00</td></tr>
+                <tr><td>18:45</td><td>Sant Pau Recinte Modernista</td><td>1.5h</td><td>Walk (15m)</td><td>10:00 - 18:30</td></tr>
+            </tbody>
+        </table>
+
+        <div class="day-label">Day 2: Waterfront Regeneration & Superblocks</div>
+        <div id="mapBcn2" class="map-frame"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Transport & Travel Time</th>
+                    <th>Opening Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>09:30</td><td>Poblenou Superblock (Superilla)</td><td>2h</td><td>Metro L4 (20m)</td><td>24/7 (Urban Zone)</td></tr>
+                <tr><td>11:45</td><td>Disseny Hub Barcelona (Glòries)</td><td>1.5h</td><td>Tram T4 (10m)</td><td>10:00 - 20:00</td></tr>
+                <tr><td>13:30</td><td>Torre Glòries (Nouvel Architecture)</td><td>1h</td><td>Walk (5m)</td><td>10:00 - 21:00</td></tr>
+                <tr><td>14:45</td><td>Barceloneta Waterfront & Olympic Village</td><td>2.5h (Lunch)</td><td>Metro L4 (15m)</td><td>24/7</td></tr>
+                <tr><td>17:30</td><td>MACBA (Richard Meier Urban Insertion)</td><td>1.5h</td><td>Metro L1 (20m)</td><td>10:00 - 20:00</td></tr>
+                <tr><td>19:30</td><td>Gothic Quarter Spatial Density Walk</td><td>2h</td><td>Walk (5m)</td><td>24/7</td></tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <footer>
@@ -98,6 +167,7 @@
         });
     }
 
+    // London Maps Initializer
     const mapFri = L.map('mapFriday').setView([51.53, -0.16], 11);
     L.tileLayer(tiles).addTo(mapFri);
     const fri = [
@@ -122,6 +192,63 @@
         { name: "Westminster", lat: 51.4995, lng: -0.1248, color: ORANGE }
     ];
     sat.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapSat).bindPopup(p.name));
+
+    // Barcelona Maps Initializer
+    let mapBcn1, mapBcn2;
+    function initBarcelonaMaps() {
+        if (mapBcn1) return; // Prevent re-initialization
+
+        mapBcn1 = L.map('mapBcn1').setView([41.398, 2.165], 13);
+        L.tileLayer(tiles).addTo(mapBcn1);
+        const bcn1 = [
+            { name: "El Prat Airport", lat: 41.2974, lng: 2.0833, color: RED },
+            { name: "Plaça de Catalunya", lat: 41.3870, lng: 2.1700, color: ORANGE },
+            { name: "Passeig de Gràcia", lat: 41.3916, lng: 2.1648, color: ORANGE },
+            { name: "Casa Milà", lat: 41.3952, lng: 2.1619, color: ORANGE },
+            { name: "Eixample Grid", lat: 41.3920, lng: 2.1600, color: ORANGE },
+            { name: "Sagrada Família", lat: 41.4036, lng: 2.1744, color: ORANGE },
+            { name: "Sant Pau Modernista", lat: 41.4115, lng: 2.1744, color: ORANGE }
+        ];
+        bcn1.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapBcn1).bindPopup(p.name));
+
+        mapBcn2 = L.map('mapBcn2').setView([41.395, 2.190], 13);
+        L.tileLayer(tiles).addTo(mapBcn2);
+        const bcn2 = [
+            { name: "Poblenou Superblock", lat: 41.4000, lng: 2.1970, color: ORANGE },
+            { name: "Disseny Hub", lat: 41.4024, lng: 2.1884, color: ORANGE },
+            { name: "Torre Glòries", lat: 41.4036, lng: 2.1894, color: ORANGE },
+            { name: "Barceloneta Waterfront", lat: 41.3800, lng: 2.1900, color: ORANGE },
+            { name: "MACBA", lat: 41.3832, lng: 2.1669, color: ORANGE },
+            { name: "Gothic Quarter", lat: 41.3825, lng: 2.1770, color: ORANGE }
+        ];
+        bcn2.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapBcn2).bindPopup(p.name));
+    }
+
+    // Tab Switching Functionality
+    function switchPage(page) {
+        document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+
+        const mapsBtn = document.getElementById('maps-link');
+
+        if(page === 'london') {
+            document.getElementById('page-london').classList.add('active');
+            event.target.classList.add('active');
+            mapsBtn.href = "https://www.google.com/maps/dir/London+Luton+Airport,+Airport+Way,+Luton/Victoria+Coach+Station,+London/Alexandra+Road+Estate,+London/The+Regent's+Park,+London/The+Sherlock+Holmes+Museum,+Baker+Street,+London/Daunt+Books,+Marylebone+High+Street,+London/Natural+History+Museum,+Cromwell+Road,+London/The+National+Gallery,+Trafalgar+Square,+London/Sir+John+Soane's+Museum,+Lincoln's+Inn+Fields,+London/Barbican+Estate,+London/Tate+Modern,+Bankside,+London/Westminster+Abbey,+London";
+            mapFri.invalidateSize();
+            mapSat.invalidateSize();
+        } else if(page === 'barcelona') {
+            document.getElementById('page-barcelona').classList.add('active');
+            event.target.classList.add('active');
+            mapsBtn.href = "https://www.google.com/maps/dir/Josep+Tarradellas+Barcelona-El+Prat+Airport/Passeig+de+Gràcia,+Barcelona/Casa+Milà,+Barcelona/Basílica+de+la+Sagrada+Família,+Barcelona/Recinte+Modernista+de+Sant+Pau,+Barcelona/Superilla+del+Poblenou,+Barcelona/Disseny+Hub+Barcelona/Torre+Glòries,+Barcelona/MACBA,+Barcelona";
+            
+            setTimeout(() => {
+                initBarcelonaMaps();
+                mapBcn1.invalidateSize();
+                mapBcn2.invalidateSize();
+            }, 100);
+        }
+    }
 </script>
 </body>
 </html>
