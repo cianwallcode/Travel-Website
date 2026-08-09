@@ -29,11 +29,16 @@
         .map-frame { height: 500px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1.5rem; }
         .day-label { color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; border-bottom: 2px solid var(--orange); display: inline-block; margin-bottom: 1.5rem; }
         
+        /* Alerts & Cards */
+        .alert-box { background: #fff1f2; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #fecaca; line-height: 1.5; font-size: 0.9rem; }
+        .info-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin-bottom: 2rem; }
+
         /* Tables */
         table { width: 100%; border-collapse: collapse; margin-bottom: 3rem; font-size: 0.9rem; }
         th { text-align: left; padding: 12px; border-bottom: 2px solid #f1f5f9; color: var(--sub); text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
         .fav { color: #eab308; font-weight: bold; }
+        .warning { color: var(--red); font-weight: 600; }
         
         footer { padding: 3rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; font-size: 0.8rem; color: var(--sub); }
     </style>
@@ -102,7 +107,16 @@
 <!-- PAGE 2: BARCELONA ARCHITECTURAL & URBAN DEVELOPMENT TRIP -->
 <div id="page-barcelona" class="page-view">
     <div class="map-container">
-        <div class="day-label">Day 1: The Cerdà Grid & Modernisme Axis</div>
+        <div class="alert-box">
+            <strong>✈️ Logistics & Transfer Warnings:</strong>
+            <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
+                <li><strong>Arriving 16th (12:05 AM):</strong> Flight lands at Girona (GRO) after midnight. Catch the night shuttle bus to Estació del Nord (~1h 15m), then take a short taxi/night bus to Carrer de Mata, 24.</li>
+                <li><strong>Departing 19th (05:45 AM):</strong> Requires departing Barcelona by ~02:30 AM via the Girona Airport Shuttle Bus to ensure arriving 2 hours prior to flight departure.</li>
+                <li><strong>Sagrada Família Mass:</strong> Sunday International Mass is at 09:00 AM (Crypt doors open at 08:30 AM, free entrance via Nativity facade, limited capacity).</li>
+            </ul>
+        </div>
+
+        <div class="day-label">Day 1: Arrival & The Cerdà Grid Axis (16th)</div>
         <div id="mapBcn1" class="map-frame"></div>
         <table>
             <thead>
@@ -111,21 +125,20 @@
                     <th>Name</th>
                     <th>Duration</th>
                     <th>Transport & Travel Time</th>
-                    <th>Opening Hours</th>
+                    <th>Notes</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>09:00</td><td>El Prat Airport (Red)</td><td>-</td><td>Aerobús (35m)</td><td>24/7</td></tr>
-                <tr><td>10:00</td><td>Plaça de Catalunya / Hotel</td><td>1h</td><td>Walk (10m)</td><td>-</td></tr>
-                <tr><td>11:15</td><td>Passeig de Gràcia (Block of Discord)</td><td>1.5h</td><td>Walk (10m)</td><td>24/7 (Exterior)</td></tr>
-                <tr><td>13:00</td><td>Casa Milà (La Pedrera)</td><td>1.5h</td><td>Walk (10m)</td><td>09:00 - 20:30</td></tr>
-                <tr><td>14:45</td><td>Eixample Lunch & Cerdà Urban Study</td><td>1.5h</td><td>Walk (5m)</td><td>13:00 - 16:00</td></tr>
-                <tr><td>16:30</td><td><span class="fav">★ Basílica de la Sagrada Família</span></td><td>2h</td><td>Metro L2 (15m)</td><td>09:00 - 20:00</td></tr>
-                <tr><td>18:45</td><td>Sant Pau Recinte Modernista</td><td>1.5h</td><td>Walk (15m)</td><td>10:00 - 18:30</td></tr>
+                <tr><td>00:05</td><td>Girona Airport (GRO) Arrival</td><td>-</td><td>Night Bus to Barcelona (1h 15m)</td><td>Arrival Flight 16th</td></tr>
+                <tr><td>02:00</td><td>Carrer de Mata, 24 (Sants-Montjuïc)</td><td>Rest</td><td>Taxi / Night Bus (15m)</td><td>Night arrival / Luggage drop</td></tr>
+                <tr><td>15:00</td><td>Check-in: Carrer de Mata, 24</td><td>1h</td><td>-</td><td>Official Check-in Time</td></tr>
+                <tr><td>16:15</td><td>Passeig de Gràcia (Block of Discord)</td><td>1.5h</td><td>Metro L3 from Paral·lel (15m)</td><td>Casa Batlló & Casa Lleó Morera</td></tr>
+                <tr><td>18:00</td><td>Casa Milà (La Pedrera)</td><td>1.5h</td><td>Walk (5m)</td><td>09:00 - 20:30 (Cerdà corner design)</td></tr>
+                <tr><td>19:45</td><td>Eixample Grid Architecture Walk</td><td>1.5h</td><td>Walk</td><td>Urban study: Octagonal intersections</td></tr>
             </tbody>
         </table>
 
-        <div class="day-label">Day 2: Waterfront Regeneration & Superblocks</div>
+        <div class="day-label">Day 2: Sagrada Família Mass & Modernisme (17th)</div>
         <div id="mapBcn2" class="map-frame"></div>
         <table>
             <thead>
@@ -134,16 +147,38 @@
                     <th>Name</th>
                     <th>Duration</th>
                     <th>Transport & Travel Time</th>
-                    <th>Opening Hours</th>
+                    <th>Notes</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td>09:30</td><td>Poblenou Superblock (Superilla)</td><td>2h</td><td>Metro L4 (20m)</td><td>24/7 (Urban Zone)</td></tr>
-                <tr><td>11:45</td><td>Disseny Hub Barcelona (Glòries)</td><td>1.5h</td><td>Tram T4 (10m)</td><td>10:00 - 20:00</td></tr>
-                <tr><td>13:30</td><td>Torre Glòries (Nouvel Architecture)</td><td>1h</td><td>Walk (5m)</td><td>10:00 - 21:00</td></tr>
-                <tr><td>14:45</td><td>Barceloneta Waterfront & Olympic Village</td><td>2.5h (Lunch)</td><td>Metro L4 (15m)</td><td>24/7</td></tr>
-                <tr><td>17:30</td><td>MACBA (Richard Meier Urban Insertion)</td><td>1.5h</td><td>Metro L1 (20m)</td><td>10:00 - 20:00</td></tr>
-                <tr><td>19:30</td><td>Gothic Quarter Spatial Density Walk</td><td>2h</td><td>Walk (5m)</td><td>24/7</td></tr>
+                <tr><td>08:30</td><td><span class="fav">★ Basílica de la Sagrada Família</span></td><td>2.5h</td><td>Metro L2 from Paral·lel (20m)</td><td><span class="warning">International Mass at 09:00 AM. Arrive early for entrance.</span></td></tr>
+                <tr><td>11:30</td><td>Sant Pau Recinte Modernista</td><td>1.5h</td><td>Walk up Avinguda Gaudí (15m)</td><td>10:00 - 18:30 (Domènech i Montaner)</td></tr>
+                <tr><td>13:30</td><td>Lunch in Gràcia District</td><td>1.5h</td><td>Walk (15m)</td><td>Pedestrianized squares study</td></tr>
+                <tr><td>15:30</td><td>Park Güell (Urban Garden City)</td><td>2h</td><td>Bus 24 (20m)</td><td>Landscape urbanism</td></tr>
+                <tr><td>18:00</td><td>Montjuïc Hill & Mies van der Rohe Pavilion</td><td>2h</td><td>Metro L3 to Espanya (25m)</td><td>Near Carrer de Mata / Iconic Modernism</td></tr>
+            </tbody>
+        </table>
+
+        <div class="day-label">Day 3: Waterfront Regeneration & Superblocks (18th - 19th Morning)</div>
+        <div id="mapBcn3" class="map-frame"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Duration</th>
+                    <th>Transport & Travel Time</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>09:30</td><td>Poblenou Superblock (Superilla)</td><td>2h</td><td>Metro L4 (25m)</td><td>Tactical urbanism & pedestrianization</td></tr>
+                <tr><td>11:45</td><td>Disseny Hub & Torre Glòries</td><td>2h</td><td>Tram T4 (10m)</td><td>Jean Nouvel architecture</td></tr>
+                <tr><td>14:30</td><td>Barceloneta Waterfront & Olympic Village</td><td>2.5h</td><td>Metro L4 (15m)</td><td>1992 Olympic urban transformation</td></tr>
+                <tr><td>17:30</td><td>MACBA (Richard Meier Architecture)</td><td>1.5h</td><td>Walk (20m)</td><td>Raval urban insertion</td></tr>
+                <tr><td>20:00</td><td>Gothic Quarter Spatial Density Walk</td><td>2h</td><td>Walk (5m)</td><td>Mediaeval vs. 19th-century fabric</td></tr>
+                <tr><td>02:30</td><td>Bus Departure to Girona Airport</td><td>1.5h</td><td>Barcelona Bus from Estació del Nord</td><td><span class="warning">Board shuttle for 05:45 AM flight on 19th</span></td></tr>
+                <tr><td>05:45</td><td>Girona Airport (GRO) Flight</td><td>-</td><td>-</td><td>Departure Flight 19th</td></tr>
             </tbody>
         </table>
     </div>
@@ -194,34 +229,40 @@
     sat.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapSat).bindPopup(p.name));
 
     // Barcelona Maps Initializer
-    let mapBcn1, mapBcn2;
+    let mapBcn1, mapBcn2, mapBcn3;
     function initBarcelonaMaps() {
         if (mapBcn1) return; // Prevent re-initialization
 
-        mapBcn1 = L.map('mapBcn1').setView([41.398, 2.165], 13);
+        mapBcn1 = L.map('mapBcn1').setView([41.380, 2.170], 12);
         L.tileLayer(tiles).addTo(mapBcn1);
         const bcn1 = [
-            { name: "El Prat Airport", lat: 41.2974, lng: 2.0833, color: RED },
-            { name: "Plaça de Catalunya", lat: 41.3870, lng: 2.1700, color: ORANGE },
+            { name: "Girona Airport (GRO)", lat: 41.9009, lng: 2.7606, color: RED },
+            { name: "Hotel: Carrer de Mata, 24", lat: 41.3736, lng: 2.1708, color: RED },
             { name: "Passeig de Gràcia", lat: 41.3916, lng: 2.1648, color: ORANGE },
-            { name: "Casa Milà", lat: 41.3952, lng: 2.1619, color: ORANGE },
-            { name: "Eixample Grid", lat: 41.3920, lng: 2.1600, color: ORANGE },
-            { name: "Sagrada Família", lat: 41.4036, lng: 2.1744, color: ORANGE },
-            { name: "Sant Pau Modernista", lat: 41.4115, lng: 2.1744, color: ORANGE }
+            { name: "Casa Milà", lat: 41.3952, lng: 2.1619, color: ORANGE }
         ];
         bcn1.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapBcn1).bindPopup(p.name));
 
-        mapBcn2 = L.map('mapBcn2').setView([41.395, 2.190], 13);
+        mapBcn2 = L.map('mapBcn2').setView([41.405, 2.165], 13);
         L.tileLayer(tiles).addTo(mapBcn2);
         const bcn2 = [
-            { name: "Poblenou Superblock", lat: 41.4000, lng: 2.1970, color: ORANGE },
-            { name: "Disseny Hub", lat: 41.4024, lng: 2.1884, color: ORANGE },
-            { name: "Torre Glòries", lat: 41.4036, lng: 2.1894, color: ORANGE },
-            { name: "Barceloneta Waterfront", lat: 41.3800, lng: 2.1900, color: ORANGE },
-            { name: "MACBA", lat: 41.3832, lng: 2.1669, color: ORANGE },
-            { name: "Gothic Quarter", lat: 41.3825, lng: 2.1770, color: ORANGE }
+            { name: "Sagrada Família", lat: 41.4036, lng: 2.1744, color: ORANGE },
+            { name: "Sant Pau Recinte Modernista", lat: 41.4115, lng: 2.1744, color: ORANGE },
+            { name: "Park Güell", lat: 41.4145, lng: 2.1527, color: ORANGE },
+            { name: "Mies van der Rohe Pavilion", lat: 41.3706, lng: 2.1500, color: ORANGE }
         ];
         bcn2.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapBcn2).bindPopup(p.name));
+
+        mapBcn3 = L.map('mapBcn3').setView([41.395, 2.185], 13);
+        L.tileLayer(tiles).addTo(mapBcn3);
+        const bcn3 = [
+            { name: "Poblenou Superblock", lat: 41.4000, lng: 2.1970, color: ORANGE },
+            { name: "Disseny Hub & Torre Glòries", lat: 41.4024, lng: 2.1884, color: ORANGE },
+            { name: "Barceloneta Waterfront", lat: 41.3800, lng: 2.1900, color: ORANGE },
+            { name: "MACBA", lat: 41.3832, lng: 2.1669, color: ORANGE },
+            { name: "Estació del Nord (Girona Bus)", lat: 41.3942, lng: 2.1822, color: RED }
+        ];
+        bcn3.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapBcn3).bindPopup(p.name));
     }
 
     // Tab Switching Functionality
@@ -240,12 +281,13 @@
         } else if(page === 'barcelona') {
             document.getElementById('page-barcelona').classList.add('active');
             event.target.classList.add('active');
-            mapsBtn.href = "https://www.google.com/maps/dir/Josep+Tarradellas+Barcelona-El+Prat+Airport/Passeig+de+Gràcia,+Barcelona/Casa+Milà,+Barcelona/Basílica+de+la+Sagrada+Família,+Barcelona/Recinte+Modernista+de+Sant+Pau,+Barcelona/Superilla+del+Poblenou,+Barcelona/Disseny+Hub+Barcelona/Torre+Glòries,+Barcelona/MACBA,+Barcelona";
+            mapsBtn.href = "https://www.google.com/maps/dir/Girona-Costa+Brava+Airport/Carrer+de+Mata,+24,+Barcelona/Passeig+de+Gràcia,+Barcelona/Casa+Milà,+Barcelona/Basílica+de+la+Sagrada+Família,+Barcelona/Recinte+Modernista+de+Sant+Pau,+Barcelona/Superilla+del+Poblenou,+Barcelona/Torre+Glòries,+Barcelona/MACBA,+Barcelona";
             
             setTimeout(() => {
                 initBarcelonaMaps();
                 mapBcn1.invalidateSize();
                 mapBcn2.invalidateSize();
+                mapBcn3.invalidateSize();
             }, 100);
         }
     }
