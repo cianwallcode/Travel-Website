@@ -29,18 +29,24 @@
         .map-frame { height: 500px; width: 100%; border-radius: 12px; border: 1px solid #eee; margin-bottom: 1.5rem; }
         .day-label { color: var(--orange); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 1.2rem; border-bottom: 2px solid var(--orange); display: inline-block; margin-bottom: 1.5rem; }
         
+        /* Weather Section */
+        .weather-banner { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.25rem; margin-bottom: 2rem; }
+        .weather-header { font-weight: 700; color: var(--text); font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .weather-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+        .weather-day { background: white; border: 1px solid #edf2f7; border-radius: 8px; padding: 0.85rem; text-align: center; }
+        .weather-date { font-weight: 600; font-size: 0.85rem; color: var(--sub); margin-bottom: 0.25rem; }
+        .weather-temp { font-size: 1.25rem; font-weight: 700; color: var(--text); margin: 0.25rem 0; }
+        .weather-desc { font-size: 0.8rem; color: #475569; }
+
         /* Alerts & Cards */
         .alert-box { background: #fff1f2; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #fecaca; line-height: 1.5; font-size: 0.9rem; }
         .budget-box { background: #f0fdf4; padding: 1rem 1.2rem; border-radius: 8px; margin-top: -1.5rem; margin-bottom: 3rem; border: 1px solid #bbf7d0; font-size: 0.95rem; color: #166534; font-weight: 600; }
-        
-        /* Weather Widget Container */
-        .weather-card { margin-bottom: 2rem; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; background: #fafafa; }
 
         /* Tables */
         table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.9rem; }
         th { text-align: left; padding: 12px; border-bottom: 2px solid #f1f5f9; color: var(--sub); text-transform: uppercase; letter-spacing: 0.5px; }
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
-        .fav { color: #eab308; font-weight: bold; }
+        .fav { color: #d97706; font-weight: 700; }
         .warning { color: var(--red); font-weight: 600; }
         
         footer { padding: 3rem; background: #fafafa; border-top: 1px solid #eee; text-align: center; font-size: 0.8rem; color: var(--sub); }
@@ -57,7 +63,7 @@
     </div>
 </header>
 
-<!-- PAGE HOME (Blank default view when returning home) -->
+<!-- PAGE HOME -->
 <div id="page-home" class="page-view active">
     <div class="map-container" style="text-align: center; padding: 6rem 2rem;">
         <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--text);">Architectural Discovery</h1>
@@ -68,6 +74,23 @@
 <!-- PAGE 1: LONDON TRIP 2026 -->
 <div id="page-london" class="page-view">
     <div class="map-container">
+        <!-- London Weather Section -->
+        <div class="weather-banner">
+            <div class="weather-header">🌤️ London Forecast Summary</div>
+            <div class="weather-grid">
+                <div class="weather-day">
+                    <div class="weather-date">Friday</div>
+                    <div class="weather-temp">16°C / 9°C</div>
+                    <div class="weather-desc">⛅ Partly Cloudy</div>
+                </div>
+                <div class="weather-day">
+                    <div class="weather-date">Saturday</div>
+                    <div class="weather-temp">15°C / 10°C</div>
+                    <div class="weather-desc">🌧️ Light Showers</div>
+                </div>
+            </div>
+        </div>
+
         <div class="day-label">Friday: Northern Arrival & Shopping</div>
         <div id="mapFriday" class="map-frame"></div>
         <table>
@@ -124,12 +147,26 @@
 <!-- PAGE 2: BARCELONA ARCHITECTURAL & URBAN DEVELOPMENT TRIP -->
 <div id="page-barcelona" class="page-view">
     <div class="map-container">
-        <!-- Live Weather Forecast Integration -->
-        <div class="weather-card">
-            <a class="weatherwidget-io" href="https://forecast7.com/en/41d382d17/barcelona/" data-label_1="BARCELONA" data-label_2="FORECAST" data-theme="pure">BARCELONA WEATHER</a>
-            <script>
-            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-            </script>
+        <!-- Barcelona Weather Section -->
+        <div class="weather-banner">
+            <div class="weather-header">☀️ Barcelona Trip Forecast</div>
+            <div class="weather-grid">
+                <div class="weather-day">
+                    <div class="weather-date">Day 1 (16th)</div>
+                    <div class="weather-temp">22°C / 14°C</div>
+                    <div class="weather-desc">☀️ Sunny & Clear</div>
+                </div>
+                <div class="weather-day">
+                    <div class="weather-date">Day 2 (17th)</div>
+                    <div class="weather-temp">23°C / 15°C</div>
+                    <div class="weather-desc">🌤️ Mostly Sunny</div>
+                </div>
+                <div class="weather-day">
+                    <div class="weather-date">Day 3 (18th)</div>
+                    <div class="weather-temp">21°C / 14°C</div>
+                    <div class="weather-desc">⛅ Gentle Breeze</div>
+                </div>
+            </div>
         </div>
 
         <div class="alert-box">
@@ -184,7 +221,7 @@
                 <tr><td>11:30</td><td>Sant Pau Recinte Modernista</td><td>1.5h</td><td>Walk up Avinguda Gaudí (15m)</td><td>10:00 - 18:30 (Domènech i Montaner)</td></tr>
                 <tr><td>13:30</td><td>Lunch in Gràcia District</td><td>1.5h</td><td>Walk (15m)</td><td>Pedestrianized squares study</td></tr>
                 <tr><td>15:30</td><td>Park Güell (Urban Garden City)</td><td>2h</td><td>Bus 24 (20m)</td><td>Landscape urbanism</td></tr>
-                <tr><td>18:00</td><td>Montjuïc Hill & Mies van der Rohe Pavilion</td><td>2h</td><td>Metro L3 to Espanya (25m)</td><td>Near Carrer de Mata / Iconic Modernism</td></tr>
+                <tr><td>18:00</td><td><span class="fav">★ Montjuïc Hill & Mies van der Rohe Pavilion</span></td><td>2h</td><td>Metro L3 to Espanya (25m)</td><td>Near Carrer de Mata / Iconic Modernism</td></tr>
             </tbody>
         </table>
         <div class="budget-box">
@@ -229,7 +266,6 @@
     const RED = '#ef4444';
     const tiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
-    // White Sub-pin icon for nearby dining
     const whitePinIcon = L.divIcon({
         className: 'custom-white-pin',
         html: `<div style="background-color: white; color: #333; width: 18px; height: 18px; border-radius: 50%; text-align: center; line-height: 16px; border: 2px solid #333; font-size: 10px; font-weight: bold;">🍽️</div>`,
@@ -237,7 +273,6 @@
         iconAnchor: [9, 9]
     });
 
-    // Nearby dining spots mapped to parent marker locations
     const nearbyDining = {
         "Passeig de Gràcia": [
             { name: "El Nacional", coords: [41.3900, 2.1688], info: "Multi-space Iberian dining" },
@@ -275,7 +310,6 @@
         });
     }
 
-    // Interactive Marker creation with toggleable food pins
     function addInteractiveMarker(map, point, index, subPinGroup) {
         const marker = L.marker([point.lat, point.lng], { icon: createIcon(index + 1, point.color, point.iconText) }).addTo(map);
         marker.bindPopup(`<b>${point.name}</b>${nearbyDining[point.name] ? '<br><small style="color:var(--orange);">Click pin to toggle nearby food spots</small>' : ''}`);
@@ -300,7 +334,6 @@
         return marker;
     }
 
-    // London Maps Initializer
     let mapFri, mapSat;
     function initLondonMaps() {
         if (mapFri) return;
@@ -330,7 +363,6 @@
         sat.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapSat).bindPopup(p.name));
     }
 
-    // Barcelona Maps Initializer
     let mapBcn1, mapBcn2, mapBcn3;
     function initBarcelonaMaps() {
         if (mapBcn1) return;
@@ -371,7 +403,6 @@
         bcn3.forEach((p, i) => addInteractiveMarker(mapBcn3, p, i, subPins3));
     }
 
-    // Header Logo Home Reset Function
     function goHome() {
         document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -381,7 +412,6 @@
         mapsBtn.href = '#';
     }
 
-    // Tab Switching Functionality
     function switchPage(page) {
         document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
