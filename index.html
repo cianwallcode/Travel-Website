@@ -15,7 +15,7 @@
         
         /* Navigation & Header */
         header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: #ffffffe6; backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; font-weight: 700; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--orange); text-decoration: none; font-weight: 700; cursor: pointer; }
         .nav-links { display: flex; gap: 1rem; align-items: center; }
         .nav-tab { background: none; border: none; font-size: 1rem; font-weight: 600; color: var(--sub); cursor: pointer; padding: 0.5rem 1rem; border-radius: 20px; transition: all 0.2s; }
         .nav-tab.active { background: #fff7ed; color: var(--orange); }
@@ -32,6 +32,9 @@
         /* Alerts & Cards */
         .alert-box { background: #fff1f2; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border: 1px solid #fecaca; line-height: 1.5; font-size: 0.9rem; }
         .budget-box { background: #f0fdf4; padding: 1rem 1.2rem; border-radius: 8px; margin-top: -1.5rem; margin-bottom: 3rem; border: 1px solid #bbf7d0; font-size: 0.95rem; color: #166534; font-weight: 600; }
+        
+        /* Weather Widget Container */
+        .weather-card { margin-bottom: 2rem; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; background: #fafafa; }
 
         /* Tables */
         table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 0.9rem; }
@@ -46,16 +49,24 @@
 <body>
 
 <header>
-    <a href="#" class="logo">Architectural Discovery</a>
+    <a onclick="goHome()" class="logo">Architectural Discovery</a>
     <div class="nav-links">
-        <button class="nav-tab active" onclick="switchPage('london')">London 2026</button>
-        <button class="nav-tab" onclick="switchPage('barcelona')">Barcelona 2026</button>
-        <a id="maps-link" href="https://www.google.com/maps/dir/London+Luton+Airport,+Airport+Way,+Luton/Victoria+Coach+Station,+London/Alexandra+Road+Estate,+London/The+Regent's+Park,+London/The+Sherlock+Holmes+Museum,+Baker+Street,+London/Daunt+Books,+Marylebone+High+Street,+London/Natural+History+Museum,+Cromwell+Road,+London/The+National+Gallery,+Trafalgar+Square,+London/Sir+John+Soane's+Museum,+Lincoln's+Inn+Fields,+London/Barbican+Estate,+London/Tate+Modern,+Bankside,+London/Westminster+Abbey,+London" target="_blank" class="cta-btn">Open in Google Maps</a>
+        <button id="tab-london" class="nav-tab" onclick="switchPage('london')">London 2026</button>
+        <button id="tab-barcelona" class="nav-tab" onclick="switchPage('barcelona')">Barcelona 2026</button>
+        <a id="maps-link" href="#" target="_blank" class="cta-btn" style="display:none;">Open in Google Maps</a>
     </div>
 </header>
 
+<!-- PAGE HOME (Blank default view when returning home) -->
+<div id="page-home" class="page-view active">
+    <div class="map-container" style="text-align: center; padding: 6rem 2rem;">
+        <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--text);">Architectural Discovery</h1>
+        <p style="color: var(--sub); max-width: 600px; margin: 1rem auto;">Select a destination above to view itinerary schedules, interactive maps, and live weather updates.</p>
+    </div>
+</div>
+
 <!-- PAGE 1: LONDON TRIP 2026 -->
-<div id="page-london" class="page-view active">
+<div id="page-london" class="page-view">
     <div class="map-container">
         <div class="day-label">Friday: Northern Arrival & Shopping</div>
         <div id="mapFriday" class="map-frame"></div>
@@ -113,6 +124,14 @@
 <!-- PAGE 2: BARCELONA ARCHITECTURAL & URBAN DEVELOPMENT TRIP -->
 <div id="page-barcelona" class="page-view">
     <div class="map-container">
+        <!-- Live Weather Forecast Integration -->
+        <div class="weather-card">
+            <a class="weatherwidget-io" href="https://forecast7.com/en/41d382d17/barcelona/" data-label_1="BARCELONA" data-label_2="FORECAST" data-theme="pure">BARCELONA WEATHER</a>
+            <script>
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+            </script>
+        </div>
+
         <div class="alert-box">
             <strong>✈️ Logistics & Transfer Warnings:</strong>
             <ul style="margin: 0.5rem 0 0 1.2rem; padding: 0;">
@@ -210,6 +229,42 @@
     const RED = '#ef4444';
     const tiles = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
+    // White Sub-pin icon for nearby dining
+    const whitePinIcon = L.divIcon({
+        className: 'custom-white-pin',
+        html: `<div style="background-color: white; color: #333; width: 18px; height: 18px; border-radius: 50%; text-align: center; line-height: 16px; border: 2px solid #333; font-size: 10px; font-weight: bold;">🍽️</div>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9]
+    });
+
+    // Nearby dining spots mapped to parent marker locations
+    const nearbyDining = {
+        "Passeig de Gràcia": [
+            { name: "El Nacional", coords: [41.3900, 2.1688], info: "Multi-space Iberian dining" },
+            { name: "Tapas 24", coords: [41.3908, 2.1672], info: "Gourmet Catalan tapas" }
+        ],
+        "Casa Milà": [
+            { name: "Cafè de la Pedrera", coords: [41.3954, 2.1615], info: "Modernist café in La Pedrera" }
+        ],
+        "Sagrada Família ⛪": [
+            { name: "La Taqueria", coords: [41.4045, 2.1755], info: "Mexican street food" },
+            { name: "L'Chaim", coords: [41.4028, 2.1732], info: "Local bistro & coffee" }
+        ],
+        "Park Güell": [
+            { name: "Terraza Martinez", coords: [41.4138, 2.1540], info: "Shaded terrace snacks" }
+        ],
+        "Mies van der Rohe Pavilion": [
+            { name: "La Font de Prades", coords: [41.3698, 2.1485], info: "Traditional Catalan cuisine" },
+            { name: "OASIS Pavilion Cafe", coords: [41.3712, 2.1512], info: "Snacks & refreshments" }
+        ],
+        "Poblenou Superblock": [
+            { name: "Can Recasens", coords: [41.4012, 2.1985], info: "Charcuterie & wine tavern" }
+        ],
+        "Barceloneta Waterfront": [
+            { name: "Can Majó", coords: [41.3792, 2.1891], info: "Seafood & Paella" }
+        ]
+    };
+
     function createIcon(number, color, labelText) {
         const text = labelText || number;
         return L.divIcon({
@@ -220,59 +275,91 @@
         });
     }
 
-    // London Maps Initializer
-    const mapFri = L.map('mapFriday').setView([51.53, -0.16], 11);
-    L.tileLayer(tiles).addTo(mapFri);
-    const fri = [
-        { name: "Luton Airport", lat: 51.8763, lng: -0.3717, color: RED },
-        { name: "Victoria Station", lat: 51.4931, lng: -0.1486, color: RED },
-        { name: "Home", lat: 51.4536, lng: -0.1951, color: RED },
-        { name: "Alexandra Road", lat: 51.5395, lng: -0.1789, color: ORANGE },
-        { name: "Regent's Park", lat: 51.5313, lng: -0.1570, color: ORANGE },
-        { name: "Sherlock Holmes", lat: 51.5237, lng: -0.1585, color: ORANGE },
-        { name: "Shopping", lat: 51.5153, lng: -0.1420, color: ORANGE }
-    ];
-    fri.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapFri).bindPopup(p.name));
+    // Interactive Marker creation with toggleable food pins
+    function addInteractiveMarker(map, point, index, subPinGroup) {
+        const marker = L.marker([point.lat, point.lng], { icon: createIcon(index + 1, point.color, point.iconText) }).addTo(map);
+        marker.bindPopup(`<b>${point.name}</b>${nearbyDining[point.name] ? '<br><small style="color:var(--orange);">Click pin to toggle nearby food spots</small>' : ''}`);
 
-    const mapSat = L.map('mapSaturday').setView([51.51, -0.13], 13);
-    L.tileLayer(tiles).addTo(mapSat);
-    const sat = [
-        { name: "NHM", lat: 51.4967, lng: -0.1764, color: ORANGE },
-        { name: "National Gallery", lat: 51.5089, lng: -0.1283, color: ORANGE },
-        { name: "Soane Museum", lat: 51.5170, lng: -0.1175, color: ORANGE },
-        { name: "Barbican", lat: 51.5202, lng: -0.0938, color: ORANGE },
-        { name: "Tate Modern", lat: 51.5076, lng: -0.0994, color: ORANGE },
-        { name: "Westminster", lat: 51.4995, lng: -0.1248, color: ORANGE }
-    ];
-    sat.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapSat).bindPopup(p.name));
+        let active = false;
+        marker.on('click', () => {
+            if (!nearbyDining[point.name]) return;
+            
+            if (!active) {
+                subPinGroup.clearLayers();
+                nearbyDining[point.name].forEach(food => {
+                    const foodMarker = L.marker(food.coords, { icon: whitePinIcon });
+                    foodMarker.bindPopup(`<b>${food.name}</b><br>${food.info}`);
+                    subPinGroup.addLayer(foodMarker);
+                });
+                active = true;
+            } else {
+                subPinGroup.clearLayers();
+                active = false;
+            }
+        });
+        return marker;
+    }
+
+    // London Maps Initializer
+    let mapFri, mapSat;
+    function initLondonMaps() {
+        if (mapFri) return;
+        mapFri = L.map('mapFriday').setView([51.53, -0.16], 11);
+        L.tileLayer(tiles).addTo(mapFri);
+        const fri = [
+            { name: "Luton Airport", lat: 51.8763, lng: -0.3717, color: RED },
+            { name: "Victoria Station", lat: 51.4931, lng: -0.1486, color: RED },
+            { name: "Home", lat: 51.4536, lng: -0.1951, color: RED },
+            { name: "Alexandra Road", lat: 51.5395, lng: -0.1789, color: ORANGE },
+            { name: "Regent's Park", lat: 51.5313, lng: -0.1570, color: ORANGE },
+            { name: "Sherlock Holmes", lat: 51.5237, lng: -0.1585, color: ORANGE },
+            { name: "Shopping", lat: 51.5153, lng: -0.1420, color: ORANGE }
+        ];
+        fri.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapFri).bindPopup(p.name));
+
+        mapSat = L.map('mapSaturday').setView([51.51, -0.13], 13);
+        L.tileLayer(tiles).addTo(mapSat);
+        const sat = [
+            { name: "NHM", lat: 51.4967, lng: -0.1764, color: ORANGE },
+            { name: "National Gallery", lat: 51.5089, lng: -0.1283, color: ORANGE },
+            { name: "Soane Museum", lat: 51.5170, lng: -0.1175, color: ORANGE },
+            { name: "Barbican", lat: 51.5202, lng: -0.0938, color: ORANGE },
+            { name: "Tate Modern", lat: 51.5076, lng: -0.0994, color: ORANGE },
+            { name: "Westminster", lat: 51.4995, lng: -0.1248, color: ORANGE }
+        ];
+        sat.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapSat).bindPopup(p.name));
+    }
 
     // Barcelona Maps Initializer
     let mapBcn1, mapBcn2, mapBcn3;
     function initBarcelonaMaps() {
-        if (mapBcn1) return; // Prevent re-initialization
+        if (mapBcn1) return;
 
         mapBcn1 = L.map('mapBcn1').setView([41.380, 2.170], 12);
         L.tileLayer(tiles).addTo(mapBcn1);
+        const subPins1 = L.layerGroup().addTo(mapBcn1);
         const bcn1 = [
             { name: "Girona Airport (GRO)", lat: 41.9009, lng: 2.7606, color: RED },
             { name: "Hotel: Carrer de Mata, 24", lat: 41.3736, lng: 2.1708, color: RED },
             { name: "Passeig de Gràcia", lat: 41.3916, lng: 2.1648, color: ORANGE },
             { name: "Casa Milà", lat: 41.3952, lng: 2.1619, color: ORANGE }
         ];
-        bcn1.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color) }).addTo(mapBcn1).bindPopup(p.name));
+        bcn1.forEach((p, i) => addInteractiveMarker(mapBcn1, p, i, subPins1));
 
         mapBcn2 = L.map('mapBcn2').setView([41.405, 2.165], 13);
         L.tileLayer(tiles).addTo(mapBcn2);
+        const subPins2 = L.layerGroup().addTo(mapBcn2);
         const bcn2 = [
             { name: "Sagrada Família ⛪", lat: 41.4036, lng: 2.1744, color: ORANGE, iconText: "⛪" },
             { name: "Sant Pau Recinte Modernista", lat: 41.4115, lng: 2.1744, color: ORANGE },
             { name: "Park Güell", lat: 41.4145, lng: 2.1527, color: ORANGE },
             { name: "Mies van der Rohe Pavilion", lat: 41.3706, lng: 2.1500, color: ORANGE }
         ];
-        bcn2.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color, p.iconText) }).addTo(mapBcn2).bindPopup(p.name));
+        bcn2.forEach((p, i) => addInteractiveMarker(mapBcn2, p, i, subPins2));
 
         mapBcn3 = L.map('mapBcn3').setView([41.390, 2.180], 13);
         L.tileLayer(tiles).addTo(mapBcn3);
+        const subPins3 = L.layerGroup().addTo(mapBcn3);
         const bcn3 = [
             { name: "Poblenou Superblock", lat: 41.4000, lng: 2.1970, color: ORANGE },
             { name: "Disseny Hub & Torre Glòries", lat: 41.4024, lng: 2.1884, color: ORANGE },
@@ -281,7 +368,17 @@
             { name: "Santa Maria del Mar ⛪", lat: 41.3836, lng: 2.1821, color: ORANGE, iconText: "⛪" },
             { name: "Estació del Nord (Girona Bus)", lat: 41.3942, lng: 2.1822, color: RED }
         ];
-        bcn3.forEach((p, i) => L.marker([p.lat, p.lng], { icon: createIcon(i + 1, p.color, p.iconText) }).addTo(mapBcn3).bindPopup(p.name));
+        bcn3.forEach((p, i) => addInteractiveMarker(mapBcn3, p, i, subPins3));
+    }
+
+    // Header Logo Home Reset Function
+    function goHome() {
+        document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('page-home').classList.add('active');
+        const mapsBtn = document.getElementById('maps-link');
+        mapsBtn.style.display = 'none';
+        mapsBtn.href = '#';
     }
 
     // Tab Switching Functionality
@@ -290,16 +387,21 @@
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
 
         const mapsBtn = document.getElementById('maps-link');
+        mapsBtn.style.display = 'inline-block';
 
         if(page === 'london') {
             document.getElementById('page-london').classList.add('active');
-            event.target.classList.add('active');
+            document.getElementById('tab-london').classList.add('active');
             mapsBtn.href = "https://www.google.com/maps/dir/London+Luton+Airport,+Airport+Way,+Luton/Victoria+Coach+Station,+London/Alexandra+Road+Estate,+London/The+Regent's+Park,+London/The+Sherlock+Holmes+Museum,+Baker+Street,+London/Daunt+Books,+Marylebone+High+Street,+London/Natural+History+Museum,+Cromwell+Road,+London/The+National+Gallery,+Trafalgar+Square,+London/Sir+John+Soane's+Museum,+Lincoln's+Inn+Fields,+London/Barbican+Estate,+London/Tate+Modern,+Bankside,+London/Westminster+Abbey,+London";
-            mapFri.invalidateSize();
-            mapSat.invalidateSize();
+            
+            setTimeout(() => {
+                initLondonMaps();
+                mapFri.invalidateSize();
+                mapSat.invalidateSize();
+            }, 100);
         } else if(page === 'barcelona') {
             document.getElementById('page-barcelona').classList.add('active');
-            event.target.classList.add('active');
+            document.getElementById('tab-barcelona').classList.add('active');
             mapsBtn.href = "https://www.google.com/maps/dir/Girona-Costa+Brava+Airport/Carrer+de+Mata,+24,+Barcelona/Passeig+de+Gràcia,+Barcelona/Casa+Milà,+Barcelona/Basílica+de+la+Sagrada+Família,+Barcelona/Recinte+Modernista+de+Sant+Pau,+Barcelona/Superilla+del+Poblenou,+Barcelona/Torre+Glòries,+Barcelona/MACBA,+Barcelona/Bas%C3%ADlica+de+Santa+Maria+del+Mar,+Barcelona";
             
             setTimeout(() => {
